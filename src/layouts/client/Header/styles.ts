@@ -22,7 +22,10 @@ export const LogoContainer = styled.div`
 export const SearchContainer = styled.div`
     grid-column: 2/3;
     grid-row: 1/2;
-
+    padding: 0 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 export const OptionsContainer = styled.div`

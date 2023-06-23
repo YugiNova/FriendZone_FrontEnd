@@ -1,18 +1,18 @@
 import { useSelector } from "react-redux";
 import { Container, CustomButton } from "./styles";
-import { MdNotifications } from "react-icons/md";
 import { getTheme } from "../../redux/selectors";
-import { Popover } from 'antd';
+import { Avatar, Popover } from 'antd';
 import PopoverContent from "./Popover";
+import smallLogo from "../../assets/Small Logo.png"
 
-const Notification: React.FC = () => {
+const Account: React.FC = () => {
     const theme = useSelector(getTheme);
 
     return (
         <Container>
             <Popover color={theme.secondaryBackground} arrow={false} trigger="click" placement="bottomRight" content={<PopoverContent/>}>
                 <CustomButton theme={theme}>
-                    <MdNotifications />
+                    <Avatar src={smallLogo}/>
                 </CustomButton>
             </Popover>
         </Container>
@@ -20,4 +20,4 @@ const Notification: React.FC = () => {
     );
 };
 
-export default Notification;
+export default Account;

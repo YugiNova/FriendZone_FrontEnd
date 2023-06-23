@@ -10,7 +10,7 @@ const ThemeToggle: React.FC = () => {
 
     return (
         <Container>
-            <Popover color={theme.secondaryBackground} arrow={false} trigger="click" placement="bottom" content={<PopoverContent/>}>
+            <Popover color={theme.secondaryBackground} arrow={false} trigger="click" placement="bottomRight" content={<PopoverContent/>}>
                 <CustomButton theme={theme}>
                     <MdColorLens />
                 </CustomButton>

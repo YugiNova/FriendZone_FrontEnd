@@ -25,23 +25,30 @@ export const PopContent = styled.div`
     background: transparent;
 `
 
-export const Title = styled.h5`
+export const Title = styled.h2`
+    margin: 0;
+    color: ${props => props.theme.primaryFont};
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+`
+
+export const Header = styled.h4`
     margin: 0;
     color: ${props => props.theme.primaryFont};
 `
 
 export const ColorGroup = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: auto auto auto auto auto;
     grid-template-rows: 1fr 1fr;
-    gap: 0.25rem;
+    gap: 0.5rem;
     margin-top: 0.5rem;
     margin-bottom: 1.25rem;
 `
 
 export const ColorButton = styled.button<Props>`
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     border: none;
     background: ${props => props.bgColor};

@@ -15,9 +15,9 @@ interface Theme {
 const lightTheme:Theme = {
     type:'light',
     primaryBackground: "#ffffff",
-    secondaryBackground: "#fcfcfc",
+    secondaryBackground: "#e8f1fa",
     primaryFont: "#212529",
-    secondaryFont:"#c1c7cd",
+    secondaryFont:"#888888",
     itemBackground:"#fcfcfc",
     itemFont:"#212529",
     boxshadow:"0 8px 30px rgba(0,0,0,.05)"

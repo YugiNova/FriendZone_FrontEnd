@@ -4,6 +4,9 @@ import { useSelector } from "react-redux"
 import { getTheme } from "../../../redux/selectors"
 import ThemeToggle from "../../../components/ThemeToggle"
 import Notification from "../../../components/Notifications"
+import Messages from "../../../components/Messages"
+import Account from "../../../components/Account"
+import SearchBox from "./SearchBox"
 
 const Header:React.FC = () => {
     const theme = useSelector(getTheme)
@@ -14,11 +17,13 @@ const Header:React.FC = () => {
                 <img src={fulllogo}/>
             </LogoContainer>
             <SearchContainer theme={theme}>
-
+                <SearchBox/>
             </SearchContainer>
             <OptionsContainer theme={theme}>
                 <Notification/> 
+                <Messages/>
                 <ThemeToggle/> 
+                <Account/>
             </OptionsContainer>
         </Container>
     )

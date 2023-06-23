@@ -3,9 +3,9 @@ import { getTheme } from "../../redux/selectors"
 import { NotificationList, PopContent, Title} from "./styles"
 import { useEffect, useState } from "react";
 import { toggleDarkTheme, toggleLightTheme } from "../../redux/themeSlice";
-import NotificaitionItem from "./NotificationItem";
+import NotificaitionItem from "./MessagesItem";
 
-interface Notification{
+interface Message{
     user:string,
     content:string,
     time:string
@@ -15,7 +15,7 @@ const PopoverContent:React.FC = () => {
     const theme = useSelector(getTheme)
     const [checked,setChecked] = useState<boolean>(false)
     const dispatch = useDispatch()
-    const [notifications,setNotifications] = useState<Notification[]>([
+    const [messages,setMessages] = useState<Message[]>([
         {
             user: "User 1",
             content: "create new post create new post create new post create new post create new post create new post create new post create new post create new post create new post ",
@@ -39,11 +39,11 @@ const PopoverContent:React.FC = () => {
     ])
     return(
         <PopContent theme={theme}>
-            <Title theme={theme}>Notifications</Title>
+            <Title theme={theme}>Messages</Title>
             <NotificationList>
                 {
-                    notifications.map(item => {
-                        return <NotificaitionItem notification={item}/>
+                    messages.map(item => {
+                        return <NotificaitionItem messages={item}/>
                     })
                 }
             </NotificationList>

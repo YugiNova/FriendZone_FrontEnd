@@ -4,11 +4,15 @@ import Header from './Header'
 import LeftSidebar from './LeftSidebar'
 import RightSidebar from './RightSidebar'
 import { Affix } from 'antd'
+import { useSelector } from 'react-redux'
+import { getTheme } from '../../redux/selectors'
 
 
 const ClientLayout:React.FC = () => {
+    const theme = useSelector(getTheme)
+
     return(
-        <Container>
+        <Container theme={theme}>
             {/* <Affix offsetTop={0}>
                 <Header/>
             </Affix> */}
@@ -18,12 +22,12 @@ const ClientLayout:React.FC = () => {
             <LeftSidebarContainer>
                 <LeftSidebar/>
             </LeftSidebarContainer>
-            <RightSidebarConatainer>
-                <RightSidebar/>
-            </RightSidebarConatainer>
             <MainContainer>
                 <Outlet/>
             </MainContainer>
+            <RightSidebarConatainer>
+                <RightSidebar/>
+            </RightSidebarConatainer>
             
         </Container>
     )

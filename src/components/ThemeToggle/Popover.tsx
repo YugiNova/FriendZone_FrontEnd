@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { getTheme } from "../../redux/selectors"
-import {CustomSwitch, PopContent, Title, ToggleTheme } from "./styles"
+import {CustomSwitch, PopContent, Header, ToggleTheme, Title } from "./styles"
 import { useState } from "react";
 import ColorList from "./ColorList";
 import { toggleDarkTheme, toggleLightTheme } from "../../redux/themeSlice";
@@ -20,10 +20,11 @@ const PopoverContent:React.FC = () => {
     }
     return(
         <PopContent theme={theme}>
-            <Title theme={theme}>Choose Color Theme</Title>
+            <Title theme={theme}>Theme</Title>
+            <Header theme={theme}>Choose Color Theme</Header>
             <ColorList/>
             <ToggleTheme>
-                <Title theme={theme}>Dark mode</Title>
+                <Header theme={theme}>Dark mode</Header>
                 <CustomSwitch theme={theme} checked={checked} onChange={onChange}/>
             </ToggleTheme>
         </PopContent>

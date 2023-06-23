@@ -49,10 +49,9 @@ export const NotificationWrapper = styled.button`
     margin: 0;
     color: ${props => props.theme.primaryFont};
     display: grid;
-    grid-template-columns: 3rem 1fr;
+    grid-template-columns: 3rem 1fr 4rem;
     grid-template-rows: auto auto;
     column-gap: 1rem;
-    row-gap: 0.5rem;
     justify-items: start;
     /* align-items: center; */
     line-height: 1.25;
@@ -82,26 +81,26 @@ export const Avatar = styled.img<Props>`
     height: 3rem;
 `
 
-export const Content = styled(Typography.Paragraph)`
+export const Name = styled.div`
     grid-column: 2/3;
     grid-row: 1/2;
-    color: ${props => props.theme.primaryFont};
+    font-weight: bold;
+    font-size: 1.25rem;
+`
+
+export const Content = styled(Typography.Text)`
+    grid-column: 2/4;
+    grid-row: 2/3;
+    color: ${props => props.theme.secondaryFont};
     font-size: 1rem;
     font-weight: normal;
     text-align:left;
-    &.ant-typography {
-        margin: 0;
-        line-height: 1.25;
-    }
-
-    span{
-        font-weight: bold;
-    }
+    margin: 0;
 `
 
 export const Time = styled.div`
-    grid-column: 2/3;
-    grid-row: 2/3;
+    grid-column: 3/4;
+    grid-row: 1/2;
     font-size: 0.75rem;
     color: ${props => props.theme.secondaryFont};
     font-weight: normal;
