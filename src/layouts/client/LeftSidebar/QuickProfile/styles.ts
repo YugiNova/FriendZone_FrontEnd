@@ -65,11 +65,13 @@ export const Name = styled.div`
 
 export const Nickname = styled.div`
     color: ${(props) => props.theme.secondaryFont};
+    font-size: 0.9rem;
 `;
 
 export const Slogan = styled.div`
     padding: 1rem;
     color: ${(props) => props.theme.primaryFont};
+    font-size: 0.8rem;
 `;
 
 export const InfoItem = styled.div`

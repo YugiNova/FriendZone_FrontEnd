@@ -10,7 +10,6 @@ interface Props {
 export const Container = styled.div`
     padding: 1rem;
     width: 100%;
-    height: 100%;
 `;
 
 export const Wrapper = styled.div`
