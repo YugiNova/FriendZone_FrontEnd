@@ -26,7 +26,6 @@ const ClientLayout: React.FC = () => {
                     <LeftSidebarContainer>
                         <LeftSidebar />
                     </LeftSidebarContainer>
-
                     <RightSidebarConatainer>
                         <RightSidebar />
                     </RightSidebarConatainer>       

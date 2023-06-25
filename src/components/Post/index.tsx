@@ -18,6 +18,7 @@ import { getTheme } from "../../redux/selectors";
 import { AiTwotoneLike } from "react-icons/ai";
 import { useState } from "react";
 import { Image } from "antd";
+import Comment from "../Comment";
 
 const Post: React.FC = () => {
     const theme = useSelector(getTheme);
@@ -72,6 +73,7 @@ const Post: React.FC = () => {
                     <BiShareAlt /> Share
                 </ActionButton>
             </AcitonWrapper>
+            <Comment/>
         </Container>
     );
 };
