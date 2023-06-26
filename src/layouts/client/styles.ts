@@ -44,3 +44,17 @@ export const Wrapper = styled.div`
     background-color: white;
     margin: 1rem 0;
 `
+
+export const ChatWrapper = styled.div`
+    position: absolute;
+    /* width: 50rem;
+    height: 10rem;
+    background-color: red; */
+    bottom: 0;
+    right: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+`

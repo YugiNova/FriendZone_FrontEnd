@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import {
     AffixCustom,
+    ChatWrapper,
     Container,
     HeaderContainer,
     LeftSidebarContainer,
@@ -13,10 +14,12 @@ import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
 import { Affix } from "antd";
 import { useSelector } from "react-redux";
-import { getTheme } from "../../redux/selectors";
+import { getChat, getTheme } from "../../redux/selectors";
+import ChatBox from "../../components/ChatBox";
 
 const ClientLayout: React.FC = () => {
     const theme = useSelector(getTheme);
+    const chat = useSelector(getChat)
 
     return (
         <Container theme={theme}>
@@ -28,10 +31,16 @@ const ClientLayout: React.FC = () => {
                     </LeftSidebarContainer>
                     <RightSidebarConatainer>
                         <RightSidebar />
+                        <ChatWrapper>
+                            {
+                                chat.map(item => {
+                                    return <ChatBox user={item.user}/>
+                                })
+                            }
+                        </ChatWrapper>
                     </RightSidebarConatainer>       
                 </HeaderContainer>
             </AffixCustom>
-            
             <MainContainer>
                 <Outlet />
             </MainContainer>

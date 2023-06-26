@@ -6,6 +6,7 @@ import { Provider } from "react-redux/es/exports";
 import ClientLayout from "./layouts/client";
 import Newfeeds from "./pages/client/newfeeds";
 import { store } from "./redux/store";
+import Login from "./pages/client/login";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<ClientLayout/>}>
               <Route index element={<Newfeeds/>}/>
             </Route>
+            <Route path="/login" element={<Login/>}/>
           </Routes>
         </BrowserRouter>
       </Provider>

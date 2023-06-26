@@ -20,7 +20,7 @@ const lightTheme:Theme = {
     secondaryFont:"#888888",
     itemBackground:"#fcfcfc",
     itemFont:"#212529",
-    boxshadow:"0 8px 30px rgba(0,0,0,.05)"
+    boxshadow:"0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)"
 }
 
 const darkTheme:Theme = {
