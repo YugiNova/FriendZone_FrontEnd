@@ -30,6 +30,7 @@ const Login: React.FC = () => {
     const [open,setOpen] = useState<boolean>(false)
 
     const onLogin = () => {
+        localStorage.setItem("token","loged in");
         navigate('/')
     }
     const onCreate = () => {

@@ -9,6 +9,7 @@ const PopoverContent:React.FC = () => {
     const navigate = useNavigate()
 
     const onLogOut = () => {
+        localStorage.removeItem('token')
         navigate("/login")
     }
 

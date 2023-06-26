@@ -7,16 +7,18 @@ import ClientLayout from "./layouts/client";
 import Newfeeds from "./pages/client/newfeeds";
 import { store } from "./redux/store";
 import Login from "./pages/client/login";
+import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
 
 function App() {
     return (
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<ClientLayout/>}>
+            <Route path="/" element={<PrivateRoute component={<ClientLayout/>}/>}>
               <Route index element={<Newfeeds/>}/>
             </Route>
-            <Route path="/login" element={<Login/>}/>
+            <Route path="/login" element={<PublicRoute component={<Login/>}/>}/>
           </Routes>
         </BrowserRouter>
       </Provider>
