@@ -9,6 +9,8 @@ import { store } from "./redux/store";
 import Login from "./pages/client/login";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
+import Profile from "./pages/client/profile.tsx";
+import Timeline from "./pages/client/timeline";
 
 function App() {
     return (
@@ -17,6 +19,9 @@ function App() {
           <Routes>
             <Route path="/" element={<PrivateRoute component={<ClientLayout/>}/>}>
               <Route index element={<Newfeeds/>}/>
+              <Route path=":profile_id" element={<Profile/>}>
+                <Route index element={<Timeline/>}/>
+              </Route>
             </Route>
             <Route path="/login" element={<PublicRoute component={<Login/>}/>}/>
           </Routes>

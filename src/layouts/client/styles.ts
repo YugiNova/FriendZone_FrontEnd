@@ -1,6 +1,10 @@
 import { Affix } from "antd";
 import styled from "styled-components";
 
+interface Props {
+    show?:string
+}
+
 export const Container = styled.div`
     /* width: 100vw; */
     /* display: grid;
@@ -22,12 +26,14 @@ export const HeaderContainer = styled.div`
     position: relative;
 `
 
-export const LeftSidebarContainer = styled.div`
+export const LeftSidebarContainer = styled.div<Props>`
+    display: ${props => props.show};
     position: absolute;
     left: 0;
 `
 
-export const RightSidebarConatainer = styled.div`
+export const RightSidebarConatainer = styled.div<Props>`
+    display: ${props => props.show};
     position: absolute;
     right: 0;
 `
@@ -35,8 +41,7 @@ export const RightSidebarConatainer = styled.div`
 export const MainContainer = styled.div`
     /* grid-column: 2/3;
     grid-row: 2/3; */
-    width: 60%;
-    padding: 1rem 10rem;
+    width: 100%;
 `
 
 export const Wrapper = styled.div`

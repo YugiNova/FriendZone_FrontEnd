@@ -13,10 +13,14 @@ const PopoverContent:React.FC = () => {
         navigate("/login")
     }
 
+    const viewProfile = () => {
+        navigate("/yugi.nova")
+    }
+
     return(
         <PopContent theme={theme}>
             <Title theme={theme}>Account</Title>
-            <OptionItem theme={theme}><MdFace6/>View your profiles</OptionItem>
+            <OptionItem onClick={viewProfile} theme={theme}><MdFace6/>View your profiles</OptionItem>
             <OptionItem theme={theme}><MdSettings/>Setting</OptionItem>
             <OptionItem onClick={onLogOut} theme={theme}><MdPowerSettingsNew/>Sign out</OptionItem>
         </PopContent>
