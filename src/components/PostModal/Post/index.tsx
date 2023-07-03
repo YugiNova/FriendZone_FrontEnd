@@ -1,4 +1,4 @@
-import { CaretLeftOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { BiLike, BiCommentDetail, BiShareAlt } from "react-icons/bi";
 import {
     AcitonWrapper,
@@ -14,14 +14,12 @@ import {
     Time,
 } from "./styles";
 import { useSelector } from "react-redux";
-import { getTheme } from "../../redux/selectors";
+import { getTheme } from "../../../redux/selectors";
 import { AiTwotoneLike } from "react-icons/ai";
 import { useState } from "react";
 import { Image } from "antd";
-import Comment from "../Comment";
-import PostModal from "../PostModal";
-import ImageGallery from 'react-image-gallery'
-import "react-image-gallery/styles/css/image-gallery.css";
+import Comment from "../../Comment"; 
+import PostModal from "..";
 
 const Post: React.FC = () => {
     const theme = useSelector(getTheme);
@@ -35,21 +33,6 @@ const Post: React.FC = () => {
     const showPost = () => {
         setOpen(true)
     }
-
-    const images = [
-        {
-          original: 'https://picsum.photos/id/1018/1000/600/',
-          thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        },
-        {
-          original: 'https://picsum.photos/id/1015/1000/600/',
-          thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        },
-        {
-          original: 'https://picsum.photos/id/1019/1000/600/',
-          thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        },
-      ];
 
     return (
         <Container theme={theme}>
@@ -72,9 +55,6 @@ const Post: React.FC = () => {
                 nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus
                 faucibus mollis pharetra. Proin blandit ac massa sed rhoncus
             </Content>
-            <MediaWrapper theme={theme}>
-                <ImageGallery showThumbnails={false} items={images}/>
-            </MediaWrapper>
             <CountWrapper theme={theme}>
                 <Count theme={theme}>
                     <AiTwotoneLike />
@@ -86,7 +66,7 @@ const Post: React.FC = () => {
                 <ActionButton onClick={onLike} liked={like} theme={theme}>
                     <AiTwotoneLike /> Like
                 </ActionButton>
-                <ActionButton onClick={showPost} theme={theme}>
+                <ActionButton theme={theme}>
                     <BiCommentDetail /> Comment
                 </ActionButton>
                 <ActionButton theme={theme}>

@@ -20,6 +20,8 @@ import {
 import { getTheme } from "../../../redux/selectors";
 import Comment from "..";
 import RepliesList from "./RepliesList";
+import CommentInput from "../CommentInput";
+import { useState } from 'react'
 
 interface Props {
     comment: Comment;
@@ -27,6 +29,8 @@ interface Props {
 
 const CommentItem: React.FC<Props> = ({ comment }) => {
     const theme = useSelector(getTheme);
+    const [replyInput,setReplyInput] = useState<boolean>(false)
+
     const showReplies = (replies: Comment[] | undefined) => {
         console.log(replies);
         if (replies) {
@@ -37,6 +41,10 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
             return "asd";
         }
     };
+
+    const onReply = () => {
+        setReplyInput(true)
+    }
 
     return (
         <Container theme={theme}>
@@ -51,7 +59,7 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
                 </ContentWrapper>
                 <ActionWrapper theme={theme}>
                     <Action theme={theme}>Like</Action>
-                    <Action theme={theme}>Reply</Action>
+                    <Action onClick={onReply} theme={theme}>Reply</Action>
                     <Time theme={theme}>2 hours</Time>
                 </ActionWrapper>
                 
@@ -65,7 +73,9 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
                     ""
                 )}
             </ChildrenWrapper>
-            <ReplyWrapper theme={theme}></ReplyWrapper>
+            <ReplyWrapper theme={theme}>
+                {replyInput?<CommentInput/>:""}
+            </ReplyWrapper>
         </Container>
     );
 };

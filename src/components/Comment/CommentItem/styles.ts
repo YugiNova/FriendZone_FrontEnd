@@ -112,6 +112,7 @@ export const Action = styled.button`
     border: none;
     background: transparent;
     color: ${props => props.theme.secondaryFont};
+    cursor: pointer;
 `
 
 export const Time = styled.div`
@@ -144,6 +145,7 @@ export const ShowMore = styled.button`
 `
 
 export const ReplyWrapper = styled.div`
-    grid-column: 2/3;
-    grid-row: 4/5;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding-left: 2.5rem;
 `

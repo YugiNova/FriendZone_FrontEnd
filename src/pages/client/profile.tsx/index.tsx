@@ -25,10 +25,10 @@ const Profile: React.FC = () => {
                     </RighWrapper>
                 </Wrapper>
                 <NavBar theme={theme}>
-                    <NavItem theme={theme} to={"/yugi.nova"}>Timeline</NavItem>
-                    <NavItem theme={theme} to={"/"}>Introduce</NavItem>
+                    <NavItem theme={theme} to={"/yugi.nova/timeline"}>Timeline</NavItem>
+                    <NavItem theme={theme} to={"/yugi.nova/introduce"}>Introduce</NavItem>
                     <NavItem theme={theme} to={"/"}>Friends</NavItem>
-                    <NavItem theme={theme} to={"/"}>Picture</NavItem>
+                    <NavItem theme={theme} to={"/"}>Photos</NavItem>
                     <NavItem theme={theme} to={"/"}>Videos</NavItem>
                 </NavBar>
             </Header>
