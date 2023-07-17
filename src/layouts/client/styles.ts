@@ -6,6 +6,7 @@ interface Props {
 }
 
 export const Container = styled.div`
+    width: 100%;
     /* width: 100vw; */
     /* display: grid;
     grid-template-columns: 20% 1fr 20%;
@@ -18,7 +19,7 @@ export const Container = styled.div`
 `
 
 export const AffixCustom = styled(Affix)`
-    /* width: 100vw; */
+    width: 100%;
 `
 
 export const HeaderContainer = styled.div`

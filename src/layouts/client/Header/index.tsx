@@ -7,6 +7,7 @@ import Notification from "../../../components/Notifications"
 import Messages from "../../../components/Messages"
 import Account from "../../../components/Account"
 import SearchBox from "./SearchBox"
+import {ReactComponent as Logo} from "../../../assets/FriendZone.svg"
 
 const Header:React.FC = () => {
     const theme = useSelector(getTheme)
@@ -14,7 +15,7 @@ const Header:React.FC = () => {
     return(
         <Container theme={theme}>
             <LogoContainer theme={theme}>
-                <img src={fulllogo}/>
+                <img src={fulllogo} alt="" />
             </LogoContainer>
             <SearchContainer theme={theme}>
                 <SearchBox/>

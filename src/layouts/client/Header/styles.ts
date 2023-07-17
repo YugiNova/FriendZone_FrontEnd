@@ -14,8 +14,11 @@ export const Container = styled.div`
 export const LogoContainer = styled.div`
     grid-column: 1/2;
     grid-row: 1/2;
+    display: flex;
+    justify-content:start;
+    align-items:center;
     img{
-        width: 50%;
+        width: 70%;
     }
 `
 

@@ -10,7 +10,7 @@ const PopoverContent:React.FC = () => {
 
     const onLogOut = () => {
         localStorage.removeItem('token')
-        navigate("/login")
+        window.location.reload()
     }
 
     const viewProfile = () => {

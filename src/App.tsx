@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter,Route,Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux/es/exports";
 import ClientLayout from "./layouts/client";
 import Newfeeds from "./pages/client/newfeeds";
@@ -19,29 +19,41 @@ import Work from "./pages/client/introduce/work";
 import Event from "./pages/client/introduce/event";
 
 function App() {
-    return (
-      <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<PrivateRoute component={<ClientLayout/>}/>}>
-              <Route index element={<Newfeeds/>}/>
-              <Route path=":profile_id" element={<Profile/>}>
-                {/* <Route index element={<Timeline/>}/> */}
-                <Route path="timeline" element={<Timeline/>}/>
-                <Route path="introduce" element={<Introduce/>}>
-                  <Route path="overview" element={<Overview/>}/>
-                  <Route path="contact" element={<Contact/>}/>
-                  <Route path="place" element={<Place/>}/>
-                  <Route path="work_education" element={<Work/>}/>
-                  <Route path="event" element={<Event/>}/>
+    const token = localStorage.getItem("token");
+
+
+    const showRoute = () => {
+        if (token) {
+            return (
+                <Route
+                    path="/"
+                    element={<PrivateRoute component={<ClientLayout />} />}
+                >
+                    <Route index element={<Newfeeds />} />
+                    <Route path=":profile_id" element={<Profile />}>
+                        <Route path="timeline" element={<Timeline />} />
+                        <Route path="introduce" element={<Introduce />}>
+                            <Route path="overview" element={<Overview />} />
+                            <Route path="contact" element={<Contact />} />
+                            <Route path="place" element={<Place />} />
+                            <Route path="work_education" element={<Work />} />
+                            <Route path="event" element={<Event />} />
+                        </Route>
+                    </Route>
                 </Route>
-              </Route>
-            </Route>
-            <Route path="/login" element={<PublicRoute component={<Login/>}/>}/>
-          </Routes>
-        </BrowserRouter>
-      </Provider>
-      
+            );
+        }
+        return (
+            <Route path="/" element={<PublicRoute component={<Login />} />} />
+        );
+    };
+
+    return (
+        <Provider store={store}>
+            <BrowserRouter>
+                <Routes>{showRoute()}</Routes>
+            </BrowserRouter>
+        </Provider>
     );
 }
 

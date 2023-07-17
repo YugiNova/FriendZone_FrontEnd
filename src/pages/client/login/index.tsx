@@ -31,7 +31,7 @@ const Login: React.FC = () => {
 
     const onLogin = () => {
         localStorage.setItem("token","loged in");
-        navigate('/')
+        window.location.reload()
     }
     const onCreate = () => {
         setOpen(!open)
