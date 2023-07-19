@@ -1,51 +1,65 @@
 import { useSelector } from "react-redux";
-import {
-    Action,
-    ActionButton,
-    Audience,
-    Container,
-    Content,
-    DropdownButton,
-    DropdownContent,
-    DropdownCustom,
-    Text,
-    Title,
-} from "./styles";
+import { AddButton, Container, Title } from "./styles";
 import { getTheme } from "../../redux/selectors";
 import { Button, MenuProps } from "antd";
-import { MdModeEdit, MdMoreHoriz, MdOutlineDelete, MdPublic } from "react-icons/md";
-import React,{useState} from 'react'
+import {
+    MdAddCircleOutline,
+    MdModeEdit,
+    MdMoreHoriz,
+    MdOutlineDelete,
+    MdPublic,
+} from "react-icons/md";
+import React, { useState } from "react";
 import AudienceModal from "../AudienceModal";
+import Form from "./Form";
+import ContentItem from "./ContentItem";
 
-const IntroduceSection: React.FC = () => {
+interface Props {
+    title: string;
+    items: string[];
+    addMore?: boolean;
+}
+
+const IntroduceSection: React.FC<Props> = ({
+    title,
+    items,
+    addMore = true,
+}) => {
     const theme = useSelector(getTheme);
-    const [open,setOpen] = useState<boolean>(false)
+    const [openForm, setOpenForm] = useState<boolean>(false);
+
+    const toggleForm = () => {
+        if (openForm) {
+            return <Form openForm={openForm} setOpenForm={setOpenForm} />;
+        }
+        return "";
+    };
+
+    const showAddMore = () => {
+        if (addMore) {
+            return (
+                <AddButton
+                    onClick={() => {
+                        setOpenForm(true);
+                    }}
+                >
+                    <MdAddCircleOutline /> Add more
+                </AddButton>
+            );
+        }
+    };
 
     return (
         <Container theme={theme}>
-            <Title theme={theme}>Name</Title>
-            <Content>
-                <Text theme={theme}>Nguyen Quoc Thang</Text>
-                <Action>
-                    <Audience onClick={()=> {setOpen(true)}} theme={theme}><MdPublic/></Audience>
-                    <AudienceModal open={open} setOpen={setOpen}/>
-                    <DropdownCustom
-       
-                        trigger={["click"]}
-                        placement="bottomRight"
-                        dropdownRender={()=>(
-                            <DropdownContent theme={theme}>
-                                <DropdownButton action="Edit" theme={theme}><MdModeEdit/>Edit</DropdownButton>
-                                <DropdownButton action="Delete" theme={theme}><MdOutlineDelete/>Delete</DropdownButton>
-                            </DropdownContent>
-                        )}
-                    >
-                        <ActionButton theme={theme}>
-                            <MdMoreHoriz />
-                        </ActionButton>
-                    </DropdownCustom>
-                </Action>
-            </Content>
+            <Title theme={theme}>{title}</Title>
+            {showAddMore()}
+
+            {toggleForm()}
+            {
+                items.map(item=>{
+                    return  <ContentItem text={item} setOpenForm={setOpenForm} openForm={openForm} />
+                })
+            }
         </Container>
     );
 };

@@ -66,7 +66,6 @@ export const IconWrapper = styled.div`
     border-radius: 50%;
     background-color:${props=>props.theme.secondaryFont};
     font-size: 2rem;
-
 `
 
 export const Name = styled.div`
