@@ -15,26 +15,14 @@ import { getTheme } from "../../redux/selectors";
 import { Button, MenuProps } from "antd";
 import { MdModeEdit, MdMoreHoriz, MdOutlineDelete, MdPublic } from "react-icons/md";
 import React,{useState} from 'react'
-import AudienceModal from "./AudienceModal";
+import AudienceModal from "../AudienceModal";
 
 const IntroduceSection: React.FC = () => {
     const theme = useSelector(getTheme);
     const [open,setOpen] = useState<boolean>(false)
 
-    const items: MenuProps["items"] = [
-        {
-            label: <Button>Edit</Button>,
-            key: "0",
-        },
-        {
-            label: <Button>Delete</Button>,
-            key: "1",
-        },
-    ];
-
-
     return (
-        <Container>
+        <Container theme={theme}>
             <Title theme={theme}>Name</Title>
             <Content>
                 <Text theme={theme}>Nguyen Quoc Thang</Text>
@@ -42,7 +30,7 @@ const IntroduceSection: React.FC = () => {
                     <Audience onClick={()=> {setOpen(true)}} theme={theme}><MdPublic/></Audience>
                     <AudienceModal open={open} setOpen={setOpen}/>
                     <DropdownCustom
-                        menu={{ items }}
+       
                         trigger={["click"]}
                         placement="bottomRight"
                         dropdownRender={()=>(
