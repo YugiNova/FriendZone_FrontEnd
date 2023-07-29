@@ -7,7 +7,6 @@ import PageLoading from "./components/Loading/PageLoading";
 function App() {
 
     return (    
-        // <PageLoading/>
         <AppRoute/>
     );
 }
