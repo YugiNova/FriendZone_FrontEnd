@@ -3,14 +3,22 @@ import { getTheme } from "../../redux/selectors"
 import { OptionItem, PopContent, Title} from "./styles"
 import { MdPowerSettingsNew,MdSettings,MdFace6 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../../services/auth.service";
 
 const PopoverContent:React.FC = () => {
     const theme = useSelector(getTheme)
     const navigate = useNavigate()
+    const auth = new AuthService()
 
-    const onLogOut = () => {
-        localStorage.removeItem('token')
-        window.location.reload()
+    const onLogOut = async () => {
+        try {
+            await auth.logout()
+            window.location.reload()
+        } catch (error:any) {
+            console.log(error.data)
+        }
+        
+       
     }
 
     const viewProfile = () => {

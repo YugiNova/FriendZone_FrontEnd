@@ -22,17 +22,58 @@ import { HiUser,HiLockClosed } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import RegisterModal from "./RegisterModal";
 import {useState} from 'react'
+import AuthService from "../../../services/auth.service";
+import { Form, Input } from "antd";
+import { toast } from 'react-toastify';
+
 
 
 const Login: React.FC = () => {
+    const [form] = Form.useForm()
     const theme = useSelector(getTheme);
     const navigate = useNavigate()
     const [open,setOpen] = useState<boolean>(false)
+    const auth = new AuthService()
 
-    const onLogin = () => {
-        localStorage.setItem("token","loged in");
-        window.location.reload()
+    const onLogin = async () => {
+        try {
+            const data = await form.validateFields()
+            auth.login(data.email,data.password)
+                .then((res:any) => {
+                    console.log(res.data)
+                    window.location.reload()
+                })
+                .catch((err)=>{
+                    toast.error(err.data.message, {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        });
+                    form.resetFields()
+                })
+        } catch (error) {
+            
+        }
+       
     }
+
+    const checkLogin = () => {
+        auth.checkLogin().then((res:any)=>{
+            console.log(res.data)
+        }).catch(err=>{console.log(err.data)})
+    }
+
+    const onLogout = () => {
+        auth.logout().then((res:any)=>{
+            console.log(res.data)
+        }).catch(err=>{console.log(err.data)})
+    }
+
     const onCreate = () => {
         setOpen(!open)
     }
@@ -50,7 +91,7 @@ const Login: React.FC = () => {
                     </Welcome>
                 </Banner>
                 <FormWrapper>
-                    <FormCustom theme={theme} layout="vertical">
+                    <FormCustom form={form} theme={theme} layout="vertical">
                         <FormItem
                             name="email"
                             rules={[
@@ -79,7 +120,8 @@ const Login: React.FC = () => {
                         </FormItem>
                         <ButtonWrapper>
                             <LoginButton onClick={onLogin} theme={theme}>Log in</LoginButton>
-                            <Forgot>Forgot password ?</Forgot>
+                            <Forgot onClick={checkLogin}>Forgot password ?</Forgot>
+                            <Forgot onClick={onLogout}>Log out</Forgot>
                             <Divider theme={theme}></Divider>
                             <RegisterButton onClick={onCreate} theme={theme}>Create Account</RegisterButton>
                             <RegisterModal setOpen={setOpen} open={open}/>
