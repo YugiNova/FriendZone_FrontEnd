@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../../../assets/Full Logo.png";
 import {
     Banner,
@@ -17,16 +17,15 @@ import {
     Welcome,
     Wrapper,
 } from "./styles";
-import { getTheme } from "../../../redux/selectors";
+import { getAuth, getTheme } from "../../../redux/selectors";
 import { HiUser,HiLockClosed } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import RegisterModal from "./RegisterModal";
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import AuthService from "../../../services/auth.service";
 import { Form, Input } from "antd";
 import { toast } from 'react-toastify';
-
-
+import { setVerifyEmail } from "../../../redux/authSlice";
 
 const Login: React.FC = () => {
     const [form] = Form.useForm()
@@ -34,6 +33,15 @@ const Login: React.FC = () => {
     const navigate = useNavigate()
     const [open,setOpen] = useState<boolean>(false)
     const auth = new AuthService()
+    const dispatch = useDispatch()
+    let authData = useSelector(getAuth)
+
+    useEffect(()=>{
+        let verified = authData.verifyEmail
+        if(!verified){
+            navigate("verify-email")
+        }
+    })
 
     const onLogin = async () => {
         try {
@@ -62,16 +70,8 @@ const Login: React.FC = () => {
        
     }
 
-    const checkLogin = () => {
-        auth.checkLogin().then((res:any)=>{
-            console.log(res.data)
-        }).catch(err=>{console.log(err.data)})
-    }
-
-    const onLogout = () => {
-        auth.logout().then((res:any)=>{
-            console.log(res.data)
-        }).catch(err=>{console.log(err.data)})
+    const onForgot = () => {
+        navigate("/forgot-password")
     }
 
     const onCreate = () => {
@@ -120,8 +120,7 @@ const Login: React.FC = () => {
                         </FormItem>
                         <ButtonWrapper>
                             <LoginButton onClick={onLogin} theme={theme}>Log in</LoginButton>
-                            <Forgot onClick={checkLogin}>Forgot password ?</Forgot>
-                            <Forgot onClick={onLogout}>Log out</Forgot>
+                            <Forgot onClick={onForgot}>Forgot password ?</Forgot>
                             <Divider theme={theme}></Divider>
                             <RegisterButton onClick={onCreate} theme={theme}>Create Account</RegisterButton>
                             <RegisterModal setOpen={setOpen} open={open}/>

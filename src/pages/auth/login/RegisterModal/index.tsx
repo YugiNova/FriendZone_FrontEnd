@@ -1,17 +1,25 @@
-import { DatePicker, Modal, Radio, RadioChangeEvent, Select } from "antd";
+import { DatePicker, Form, Modal, Radio, RadioChangeEvent, Select } from "antd";
 import {
     Container,
     CustomForm,
     CustomInput,
+    CustomPasswordInput,
     FormItem,
     Header,
     NameWrapper,
     SubmitButton,
 } from "./styles";
 import { useState } from "react";
-import { RiLockPasswordLine, RiLockPasswordFill} from "react-icons/ri";
-import { FaUserNinja, FaUserNurse} from "react-icons/fa";
-import { MdAlternateEmail } from "react-icons/md";
+import { RiLockPasswordLine, RiLockPasswordFill } from "react-icons/ri";
+import { FaUserNinja, FaUserNurse } from "react-icons/fa";
+import { MdAlternateEmail, MdDriveFileRenameOutline } from "react-icons/md";
+import AuthService from "../../../../services/auth.service";
+import { PuffLoader } from "react-spinners";
+import moment from "moment";
+import { useDispatch } from "react-redux";
+import { setVerifyEmail } from "../../../../redux/authSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface Props {
     open: boolean;
@@ -19,6 +27,50 @@ interface Props {
 }
 
 const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
+    const [form] = Form.useForm();
+    const auth = new AuthService();
+    const [loading, setLoading] = useState<boolean>(false);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const onRegister = async () => {
+        try {
+            const data = await form.validateFields();
+            setLoading(true);
+            const newDate = moment(data.dob).format('YYYY-MM-DD')
+            data.dob = newDate;
+            console.log(data);
+            auth.register(data)
+                .then((res) => {
+                    console.log(res.data);
+                    dispatch(setVerifyEmail(data.email))
+                    setLoading(false);
+                    
+                })
+                .then(res=>{
+                    setOpen(false);
+                    auth.login(data.email,data.password).then(res=>{
+                        window.location.reload()
+                    })
+                })
+                .catch((err) => {
+                    if(err.data){
+                        toast.error(err.data.message, {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                            });
+                    }
+                    setLoading(false);
+                });
+        } catch (error) {}
+    };
+
     const onClose = () => {
         setOpen(!open);
     };
@@ -30,10 +82,10 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
                     <h1>Sign up</h1>
                     <h3>It's quick and easy.</h3>
                 </Header>
-                <CustomForm layout="vertical">
+                <CustomForm form={form} layout="vertical">
                     <NameWrapper>
                         <FormItem
-                            name="firstname"
+                            name="first_name"
                             rules={[
                                 {
                                     required: true,
@@ -41,10 +93,13 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
                                 },
                             ]}
                         >
-                            <CustomInput prefix={<FaUserNinja/>} placeholder="First name" />
+                            <CustomInput
+                                prefix={<FaUserNinja />}
+                                placeholder="First name"
+                            />
                         </FormItem>
                         <FormItem
-                            name="lastname"
+                            name="last_name"
                             rules={[
                                 {
                                     required: true,
@@ -52,9 +107,40 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
                                 },
                             ]}
                         >
-                            <CustomInput prefix={<FaUserNurse/>} placeholder="Lastname" />
+                            <CustomInput
+                                prefix={<FaUserNurse />}
+                                placeholder="Lastname"
+                            />
                         </FormItem>
                     </NameWrapper>
+                    <FormItem
+                        name="display_name"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Display name is require",
+                            },
+                        ]}
+                    >
+                        <CustomInput
+                            prefix={<MdDriveFileRenameOutline />}
+                            placeholder="Display name"
+                        />
+                    </FormItem>
+                    <FormItem
+                        name="nickname"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Nickname is require",
+                            },
+                        ]}
+                    >
+                        <CustomInput
+                            prefix={<MdDriveFileRenameOutline />}
+                            placeholder="Nickname"
+                        />
+                    </FormItem>
                     <FormItem
                         name="email"
                         rules={[
@@ -62,9 +148,16 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
                                 required: true,
                                 message: "Email address is require",
                             },
+                            {
+                                type: "email",
+                                message: "Email must have correct format",
+                            },
                         ]}
                     >
-                        <CustomInput prefix={<MdAlternateEmail/>} placeholder="Email address" />
+                        <CustomInput
+                            prefix={<MdAlternateEmail />}
+                            placeholder="Email address"
+                        />
                     </FormItem>
                     <FormItem
                         name="password"
@@ -75,18 +168,39 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
                             },
                         ]}
                     >
-                        <CustomInput prefix={<RiLockPasswordFill/>} placeholder="Password" />
+                        <CustomPasswordInput
+                            prefix={<RiLockPasswordFill />}
+                            placeholder="Password"
+                        />
                     </FormItem>
                     <FormItem
-                        name="confirmPassword"
+                        name="confirm"
+                        dependencies={["password"]}
+                        hasFeedback
                         rules={[
                             {
                                 required: true,
-                                message: "Password need to confirm",
+                                message: "Please confirm your password!",
                             },
+                            ({ getFieldValue }) => ({
+                                validator(rule, value) {
+                                    if (
+                                        !value ||
+                                        getFieldValue("password") === value
+                                    ) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(
+                                        "The two passwords that you entered do not match!"
+                                    );
+                                },
+                            }),
                         ]}
                     >
-                        <CustomInput prefix={<RiLockPasswordLine/>} placeholder="Confirm password" />
+                        <CustomPasswordInput
+                            prefix={<RiLockPasswordLine />}
+                            placeholder="Confirm password"
+                        />
                     </FormItem>
                     <NameWrapper>
                         <FormItem
@@ -107,12 +221,12 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Birthday is required",
+                                    message: "Gender is required",
                                 },
                             ]}
+                            initialValue={"male"}
                         >
                             <Select
-                                defaultValue="male"
                                 style={{ width: "100%" }}
                                 // onChange={handleChange}
                                 options={[
@@ -124,7 +238,14 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
                         </FormItem>
                     </NameWrapper>
                 </CustomForm>
-                <SubmitButton>Sign up</SubmitButton>
+                <SubmitButton onClick={onRegister}>
+                    <PuffLoader
+                        color="white"
+                        loading={loading}
+                        size={"1.25rem"}
+                    />
+                    Sign up
+                </SubmitButton>
             </Container>
         </Modal>
     );

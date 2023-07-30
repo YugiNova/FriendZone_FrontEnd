@@ -48,6 +48,15 @@ export const CustomInput = styled(Input)`
     }
 `
 
+export const CustomPasswordInput = styled(Input.Password)`
+    font-size: 1.25rem;
+    background: #e8f1fa;
+
+    input{
+        background:transparent;
+    }
+`
+
 export const SubmitButton = styled.button`
     font-size: 1.25rem;
     padding:0.5rem 2.5rem;
@@ -56,4 +65,9 @@ export const SubmitButton = styled.button`
     background: rgb(54, 164, 32);
     color: white;
     font-weight: bold;
+    cursor: pointer;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
 `

@@ -13,7 +13,7 @@ const PopoverContent:React.FC = () => {
     const onLogOut = async () => {
         try {
             await auth.logout()
-            window.location.reload()
+            window.location.replace('http://localhost:3000/')
         } catch (error:any) {
             console.log(error.data)
         }

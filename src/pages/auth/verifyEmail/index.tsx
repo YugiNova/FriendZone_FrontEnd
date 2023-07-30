@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     Container,
     Content,
@@ -11,19 +11,33 @@ import { getTheme } from "../../../redux/selectors";
 import logo from "../../../assets/Full Logo.png";
 import { useState } from "react";
 import { PuffLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
+import { setVerifyEmail } from "../../../redux/authSlice";
+import AuthService from "../../../services/auth.service";
 
 const VerifyEmail = () => {
     const theme = useSelector(getTheme);
     const [send, setSend] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [sendLoading, setSendLoading] = useState<boolean>(false);
+    const [cancelLoading, setCancelLoading] = useState<boolean>(false);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const auth = new AuthService()
 
     const onSendMail = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setSend(true);
-        }, 5000);
-    };
+        setSendLoading(true);
+        auth.sendVerificationEmail().then(res=>{
+            setSendLoading(false)
+            setSend(true)
+        })
+    }
+
+    const onCancel = async () => {
+        setCancelLoading(true)
+        await auth.removeCookie()
+        dispatch(setVerifyEmail(true))
+        navigate("/")
+    }
 
     return (
         <Container>
@@ -35,7 +49,7 @@ const VerifyEmail = () => {
                 <Content>
                     {
                         !send?
-                        `Thank you for signing up for our service.<br> Just one more step
+                        `Thank you for signing up for our service. Just one more step
                         to completely register your FriendZone account. Please click
                         button below to send a verify email to your email you
                         already registry`:
@@ -48,10 +62,20 @@ const VerifyEmail = () => {
                     
                 </Content>
                 <CustomButton>
+                    <button className="cancel" onClick={onCancel}>
+                        <PuffLoader
+                            color="black"
+                            loading={cancelLoading}
+                            size={"1.25rem"}
+                        />
+                        <p>
+                            Cancel
+                        </p>
+                    </button>
                     <button onClick={onSendMail}>
                         <PuffLoader
                             color="white"
-                            loading={loading}
+                            loading={sendLoading}
                             size={"1.25rem"}
                         />
                         <p>

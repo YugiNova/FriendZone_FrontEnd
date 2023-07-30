@@ -44,7 +44,7 @@ export const Content = styled.div`
 export const CustomButton = styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 1rem;
     border-top: 3px solid #e8f1fa;
@@ -64,12 +64,6 @@ export const CustomButton = styled.div`
         flex-direction: row;
         justify-content: center;
         align-items: center;
-
-        &.cancel{
-            background-color: #e4e6eb;
-            color: black;
-           
-        }
 
         p{
             margin: 0;
