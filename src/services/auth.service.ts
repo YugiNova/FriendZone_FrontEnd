@@ -145,6 +145,38 @@ class AuthService {
             },
         }).then(res=>{console.log(res.data.message)}).catch(err=>{})
     }
+
+    public sendRecoverPasswordEmail = async (email:string) =>{
+        try{
+            let result = await  axios.post(`${this.baseUrl}/password/reset`,{email},{
+                withCredentials: true,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+            return result.data
+        }
+        catch (error:any){
+            throw error.response.data
+        }
+    }
+
+    public updatePassword = async (id:string|undefined,token:string|undefined,password:string) =>{
+        try{
+            let result = await  axios.post(`${this.baseUrl}/password/update`,{id,token,password},{
+                withCredentials: true,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+            return result.data
+        }
+        catch (error:any){
+            throw error.response.data
+        }
+    }
 }
 
 export default AuthService;

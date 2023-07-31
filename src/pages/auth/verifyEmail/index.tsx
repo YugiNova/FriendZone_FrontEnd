@@ -7,37 +7,41 @@ import {
     Logo,
     Title,
 } from "./styles";
-import { getTheme } from "../../../redux/selectors";
+import { getAuth, getTheme } from "../../../redux/selectors";
 import logo from "../../../assets/Full Logo.png";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { PuffLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import { setVerifyEmail } from "../../../redux/authSlice";
+import { forgetLogin } from "../../../redux/authSlice";
+import { AppDispatch } from "../../../redux/store";
 import AuthService from "../../../services/auth.service";
 
 const VerifyEmail = () => {
     const theme = useSelector(getTheme);
     const [send, setSend] = useState<boolean>(false);
     const [sendLoading, setSendLoading] = useState<boolean>(false);
-    const [cancelLoading, setCancelLoading] = useState<boolean>(false);
     const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
+    const authData = useSelector(getAuth)
     const auth = new AuthService()
 
     const onSendMail = () => {
         setSendLoading(true);
         auth.sendVerificationEmail().then(res=>{
-            setSendLoading(false)
             setSend(true)
+            setSendLoading(false)
         })
     }
 
     const onCancel = async () => {
-        setCancelLoading(true)
-        await auth.removeCookie()
-        dispatch(setVerifyEmail(true))
-        navigate("/")
+        dispatch(forgetLogin())
     }
+
+    useEffect(()=>{
+        if(authData.error == "not_logged_in"){
+            navigate("/")
+        }
+    },[authData.error])
 
     return (
         <Container>
@@ -63,11 +67,6 @@ const VerifyEmail = () => {
                 </Content>
                 <CustomButton>
                     <button className="cancel" onClick={onCancel}>
-                        <PuffLoader
-                            color="black"
-                            loading={cancelLoading}
-                            size={"1.25rem"}
-                        />
                         <p>
                             Cancel
                         </p>

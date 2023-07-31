@@ -25,7 +25,6 @@ import {useEffect, useState} from 'react'
 import AuthService from "../../../services/auth.service";
 import { Form, Input } from "antd";
 import { toast } from 'react-toastify';
-import { setVerifyEmail } from "../../../redux/authSlice";
 
 const Login: React.FC = () => {
     const [form] = Form.useForm()
@@ -37,8 +36,7 @@ const Login: React.FC = () => {
     let authData = useSelector(getAuth)
 
     useEffect(()=>{
-        let verified = authData.verifyEmail
-        if(!verified){
+        if(authData.error == "not_verified"){
             navigate("verify-email")
         }
     })
@@ -48,7 +46,6 @@ const Login: React.FC = () => {
             const data = await form.validateFields()
             auth.login(data.email,data.password)
                 .then((res:any) => {
-                    console.log(res.data)
                     window.location.reload()
                 })
                 .catch((err)=>{

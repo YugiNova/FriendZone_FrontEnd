@@ -17,7 +17,7 @@ import AuthService from "../../../../services/auth.service";
 import { PuffLoader } from "react-spinners";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import { setVerifyEmail } from "../../../../redux/authSlice";
+
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -39,13 +39,9 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
             setLoading(true);
             const newDate = moment(data.dob).format('YYYY-MM-DD')
             data.dob = newDate;
-            console.log(data);
             auth.register(data)
                 .then((res) => {
-                    console.log(res.data);
-                    dispatch(setVerifyEmail(data.email))
                     setLoading(false);
-                    
                 })
                 .then(res=>{
                     setOpen(false);

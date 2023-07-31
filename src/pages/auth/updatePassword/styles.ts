@@ -1,3 +1,4 @@
+import { Form, Input } from "antd";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -37,14 +38,31 @@ export const Title = styled.div`
 
 export const Content = styled.div`
     padding: 2.5rem 1rem;
+    padding-bottom: 2rem;
     text-align: left;
     line-height: 1.5;
+`
+
+export const FormCustom = styled(Form)`
+    margin-top: 1rem;
+`
+
+export const FormItem = styled(Form.Item)`
+
+`
+
+export const CustomInput = styled(Input)`
+    font-size: 1.5rem;
+`
+
+export const CustomPasswordInput = styled(Input.Password)`
+    font-size: 1.5rem;
 `
 
 export const CustomButton = styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
     padding: 1rem;
     border-top: 3px solid #e8f1fa;
@@ -54,7 +72,7 @@ export const CustomButton = styled.div`
         font-weight:bold;
         background-color: rgb(206,68,16);
         border: none;
-        padding: 1rem;
+        padding: 0.75rem 1rem;
         border-radius: 0.5rem;
         color: white;
         cursor: pointer;
@@ -68,7 +86,7 @@ export const CustomButton = styled.div`
         &.cancel{
             background-color: #e4e6eb;
             color: black;
-           
+            margin-right: 1rem;
         }
 
         p{
