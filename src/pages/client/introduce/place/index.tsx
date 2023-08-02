@@ -14,8 +14,14 @@ const Place: React.FC = () => {
                 formRender={[
                     {
                         name: "name",
-                        type: "current",
-                        title:"Where are you living",
+                        type: "place",
+                        title:"Place you are living",
+                        inputType: "text"
+                    },
+                    {
+                        name: "type",
+                        type: "place",
+                        title:"current",
                         inputType: "text"
                     }
                 ]}
@@ -28,8 +34,14 @@ const Place: React.FC = () => {
                 formRender={[
                     {
                         name: "name",
-                        type: "hometown",
-                        title:"Your home town",
+                        type: "place",
+                        title:"Your hometown",
+                        inputType: "text"
+                    },
+                    {
+                        name: "type",
+                        type: "place",
+                        title:"hometown",
                         inputType: "text"
                     }
                 ]}
@@ -42,8 +54,14 @@ const Place: React.FC = () => {
                 formRender={[
                     {
                         name: "name",
-                        type: "other",
-                        title:"Other place you use to lived",
+                        type: "place",
+                        title:"Place you are living",
+                        inputType: "text"
+                    },
+                    {
+                        name: "type",
+                        type: "place",
+                        title:"current",
                         inputType: "text"
                     }
                 ]}

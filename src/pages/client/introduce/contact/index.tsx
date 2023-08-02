@@ -15,9 +15,15 @@ const Contact:React.FC = () => {
                 formRender={[
                     {
                         name: "content",
-                        type: "phone",
+                        type: "contact",
                         title:"Phone number",
-                        inputType: "textarea"
+                        inputType: "text"
+                    },
+                    {
+                        name: "type",
+                        type: "contact",
+                        title:"phone",
+                        inputType: "text"
                     }
                 ]}
             />
@@ -28,9 +34,15 @@ const Contact:React.FC = () => {
                 formRender={[
                     {
                         name: "content",
-                        type: "email",
+                        type: "contact",
                         title:"Email",
-                        inputType: "textarea"
+                        inputType: "text"
+                    },
+                    {
+                        name: "type",
+                        type: "contact",
+                        title:"email",
+                        inputType: "text"
                     }
                 ]}
             />
@@ -41,9 +53,15 @@ const Contact:React.FC = () => {
                 formRender={[
                     {
                         name: "content",
-                        type: "website",
+                        type: "contact",
                         title:"Website",
-                        inputType: "textarea"
+                        inputType: "text"
+                    },
+                    {
+                        name: "type",
+                        type: "contact",
+                        title:"wensite",
+                        inputType: "text"
                     }
                 ]}
             />

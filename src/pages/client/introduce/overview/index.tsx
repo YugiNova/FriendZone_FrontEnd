@@ -19,10 +19,10 @@ const Overview: React.FC = () => {
                 formRender={[
                     {
                         name: "introduce",
-                        type: "",
+                        type: "profile",
                         title:"Introduce",
                         inputType: "textarea"
-                    }
+                    },
                 ]}
             />
             <IntroduceSection
@@ -35,7 +35,7 @@ const Overview: React.FC = () => {
                 formRender={[
                     {
                         name: "dob",
-                        type: "",
+                        type: "profile",
                         title:"Birthday",
                         inputType: "date"
                     }

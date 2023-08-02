@@ -19,14 +19,20 @@ const Work: React.FC = () => {
                 formRender={[
                     {
                         name: "name",
-                        type: "education",
+                        type: "work_education",
                         title:"School, university, college,...",
                         inputType: "text"
                     },
                     {
-                        name: "year ",
-                        type: "education",
-                        title:"School, university, college,...",
+                        name: "year",
+                        type: "work_education",
+                        title:"range",
+                        inputType: "range"
+                    },
+                    {
+                        name: "type",
+                        type: "work_education",
+                        title:"education",
                         inputType: "text"
                     }
                 ]}
@@ -39,8 +45,20 @@ const Work: React.FC = () => {
                 formRender={[
                     {
                         name: "name",
-                        type: "work",
-                        title:"",
+                        type: "work_education",
+                        title:"Company",
+                        inputType: "text"
+                    },
+                    {
+                        name: "year",
+                        type: "work_education",
+                        title:"range",
+                        inputType: "range"
+                    },
+                    {
+                        name: "type",
+                        type: "work_education",
+                        title:"work",
                         inputType: "text"
                     }
                 ]}

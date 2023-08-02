@@ -49,23 +49,31 @@ const Form: React.FC<Props> = ({ openForm, setOpenForm, formRender }) => {
     const onSubmit = async () => {
         try {
             const data = await form.validateFields();
-            // data.time[0] = moment(data.time[0]).format("YYYY");
-            // data.time[1] = data.time[1]
-            //     ? moment(data.time[1]).format("YYYY")
-            //     : "now";
-            console.log(data);
+            let result = {...data}
+            if(data.year){
+                data.year[0] = moment(data.year[0]).format("YYYY");
+                data.year[1] = data.year[1]
+                ? moment(data.year[1]).format("YYYY")
+                : "now";
+              
+                result = {...result,year_start: data.year[0],year_end: data.year[1]}
+            }
+            let {year:_,...newData} = result
+            newData = {...newData,status:status?.value}
+            let service = formRender[0].type
+            console.log(newData,service);
         } catch (error) {}
     };
 
-    const renderInput = (type: string,title:string) => {
+    const renderInput = (type: string,title:string,name:string) => {
         switch (type) {
             case "text":
-                return <CustomInput theme={theme} placeholder={title} />;
+                return <CustomInput hidden={name == "type" ? true : false} theme={theme} placeholder={title} />;
             case "textarea":
-                return <CustomTextArea theme={theme} placeholder={title} />;
+                return <CustomTextArea hidden={name == "type" ? true : false} theme={theme} placeholder={title} />;
             case "range":
                 return (
-                    <CustomRangePicker
+                    <CustomRangePicker  
                         allowEmpty={[false, true]}
                         theme={theme}
                         picker="date"
@@ -89,6 +97,8 @@ const Form: React.FC<Props> = ({ openForm, setOpenForm, formRender }) => {
                 {formRender.map((item, index) => {
                     return (
                         <FormItem
+                            hidden={item.name == "type" ? true :false}
+                            initialValue={item.name == "type" ? item.title : ''}
                             name={item.name}
                             theme={theme}
                             rules={[
@@ -98,7 +108,7 @@ const Form: React.FC<Props> = ({ openForm, setOpenForm, formRender }) => {
                                 },
                             ]}
                         >
-                            {renderInput(item.inputType,item.title)}
+                            {renderInput(item.inputType,item.title,item.name)}
                         </FormItem>
                     );
                 })}
