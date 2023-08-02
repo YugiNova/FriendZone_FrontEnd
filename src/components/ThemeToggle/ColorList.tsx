@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { Radio } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { changePrimaryColor } from "../../redux/themeSlice";
-import { getTheme } from "../../redux/selectors";
+import { getCurrentUser, getTheme } from "../../redux/selectors";
+import { updateColor } from "../../redux/authSlice";
+import { AppDispatch } from "../../redux/store";
 
 interface Color {
     checked: boolean;
@@ -51,7 +53,8 @@ const ColorList: React.FC = () => {
         },
     ]);
     const theme = useSelector(getTheme);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
+    const currentUser = useSelector(getCurrentUser)
     
     useEffect(() => {
         //handle checked
@@ -74,8 +77,10 @@ const ColorList: React.FC = () => {
         });
         setColor(newColor);
 
-        //update color to redux
-        dispatch(changePrimaryColor(checkedColor));
+        dispatch(updateColor({
+            color:checkedColor,
+            slug: currentUser.slug
+        }))
     };
 
     return (

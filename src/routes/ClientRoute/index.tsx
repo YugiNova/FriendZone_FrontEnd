@@ -2,29 +2,55 @@ import { Route, Routes } from "react-router-dom";
 import ClientLayout from "../../layouts/client";
 import Newfeeds from "../../pages/client/newfeeds";
 import Profile from "../../pages/client/profile.tsx";
-import { Timeline } from "antd";
 import Introduce from "../../pages/client/introduce";
 import Overview from "../../pages/client/introduce/overview";
 import Contact from "../../pages/client/introduce/contact";
 import Place from "../../pages/client/introduce/place";
 import Work from "../../pages/client/introduce/work";
 import Event from "../../pages/client/introduce/event";
+import Timeline from "../../pages/client/timeline";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuth, getCurrentUser } from "../../redux/selectors";
+import {
+    changePrimaryColor,
+    toggleDarkTheme,
+    toggleLightTheme,
+} from "../../redux/themeSlice";
 
 const ClientRoute = () => {
+    const currentUser = useSelector(getCurrentUser);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (currentUser.profile?.theme == "light") {
+            dispatch(toggleLightTheme());
+        } else if (currentUser.profile?.theme == "dark") {
+            dispatch(toggleDarkTheme());
+        }
+        
+        if (currentUser.profile?.color) {
+            dispatch(changePrimaryColor(currentUser.profile?.color));
+        }
+    }, [currentUser.profile?.color, currentUser.profile?.theme]);
+
     return (
         <Routes>
             <Route path="/" element={<ClientLayout />}>
                 <Route index element={<Newfeeds />} />
-                <Route path=":profile_id" element={<Profile />}>
-                    <Route path="timeline" element={<Timeline />} />
+                <Route path=":slug" element={<Profile />}>
+                    <Route index element={<Timeline />} />
                     <Route path="introduce" element={<Introduce />}>
+                        <Route index element={<Overview />} />
                         <Route path="overview" element={<Overview />} />
                         <Route path="contact" element={<Contact />} />
                         <Route path="place" element={<Place />} />
                         <Route path="work_education" element={<Work />} />
                         <Route path="event" element={<Event />} />
                     </Route>
+                    <Route path="*" element={<Timeline />} />
                 </Route>
+                <Route path="*" element={<Newfeeds />} />
             </Route>
         </Routes>
     );

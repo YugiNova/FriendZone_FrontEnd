@@ -10,34 +10,89 @@ import {
     Text,
 } from "./styles";
 import { getTheme } from "../../../redux/selectors";
-import { useState } from 'react' 
+import { useState } from "react";
 import AudienceModal from "../../AudienceModal";
-import { MdModeEdit, MdMoreHoriz, MdOutlineDelete, MdPublic } from "react-icons/md";
+import {
+    MdModeEdit,
+    MdMoreHoriz,
+    MdOutlineDelete,
+    MdPublic,
+} from "react-icons/md";
 
 interface Props {
-    openForm:boolean,
-    setOpenForm:(openForm:boolean)=> void,
-    text:string
+    openForm: boolean;
+    setOpenForm: (openForm: boolean) => void;
+    text: string;
+    editable: boolean;
+    profileStatus: boolean;
+    deletable: boolean;
 }
 
-const ContentItem:React.FC<Props> = ({openForm,setOpenForm,text}) => {
-    const theme = useSelector(getTheme)
-    const [open,setOpen] = useState<boolean>(false)
+interface Status {
+    name: string;
+    icon: React.ReactElement;
+    value: string;
+}
 
-    return(
+const ContentItem: React.FC<Props> = ({
+    openForm,
+    setOpenForm,
+    text,
+    editable,
+    profileStatus,
+    deletable,
+}) => {
+    const theme = useSelector(getTheme);
+    const [open, setOpen] = useState<boolean>(false);
+    const [status,setStatus] = useState<Status>()
+
+    return (
         <Content>
-                <Text theme={theme}>{text}</Text>
+            <Text theme={theme}>{text}</Text>
+            {editable ? (
                 <Action>
-                    <Audience onClick={()=> {setOpen(true)}} theme={theme}><MdPublic/></Audience>
-                    <AudienceModal open={open} setOpen={setOpen}/>
+                    {profileStatus ? (
+                        <>
+                            <Audience
+                                onClick={() => {
+                                    setOpen(true);
+                                }}
+                                theme={theme}
+                            >
+                                <MdPublic />
+                            </Audience>
+                            <AudienceModal setStatus={setStatus} open={open} setOpen={setOpen} />
+                        </>
+                    ) : (
+                        ""
+                    )}
+
                     <DropdownCustom
-       
                         trigger={["click"]}
                         placement="bottomRight"
-                        dropdownRender={()=>(
+                        dropdownRender={() => (
                             <DropdownContent theme={theme}>
-                                <DropdownButton onClick={()=>{setOpenForm(true)}} action="Edit" theme={theme}><MdModeEdit/>Edit</DropdownButton>
-                                <DropdownButton action="Delete" theme={theme}><MdOutlineDelete/>Delete</DropdownButton>
+                                <DropdownButton
+                                    onClick={() => {
+                                        setOpenForm(true);
+                                    }}
+                                    action="Edit"
+                                    theme={theme}
+                                >
+                                    <MdModeEdit />
+                                    Edit
+                                </DropdownButton>
+                                {deletable ? (
+                                    <DropdownButton
+                                        action="Delete"
+                                        theme={theme}
+                                    >
+                                        <MdOutlineDelete />
+                                        Delete
+                                    </DropdownButton>
+                                ) : (
+                                    ""
+                                )}
                             </DropdownContent>
                         )}
                     >
@@ -46,8 +101,11 @@ const ContentItem:React.FC<Props> = ({openForm,setOpenForm,text}) => {
                         </ActionButton>
                     </DropdownCustom>
                 </Action>
-            </Content>
-    )
-}
+            ) : (
+                ""
+            )}
+        </Content>
+    );
+};
 
-export default ContentItem
+export default ContentItem;

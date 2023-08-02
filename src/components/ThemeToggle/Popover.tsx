@@ -1,22 +1,32 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getTheme } from "../../redux/selectors"
+import { getCurrentUser, getTheme } from "../../redux/selectors"
 import {CustomSwitch, PopContent, Header, ToggleTheme, Title } from "./styles"
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import ColorList from "./ColorList";
 import { toggleDarkTheme, toggleLightTheme } from "../../redux/themeSlice";
+import { updateTheme } from "../../redux/authSlice";
+import { AppDispatch } from "../../redux/store";
 
 const PopoverContent:React.FC = () => {
     const theme = useSelector(getTheme)
     const [checked,setChecked] = useState<boolean>(false)
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
+    const currentUser = useSelector(getCurrentUser)
+
+    useEffect(()=>{
+        if(currentUser.profile?.theme == "dark"){
+            setChecked(true)
+        }
+    },[])
 
     const onChange = () => {
-        if(checked === true){
-            dispatch(toggleLightTheme())
+        if(currentUser.profile?.theme == "dark"){
+            dispatch(updateTheme({theme:"light",slug:currentUser.slug}))
+            setChecked(false)
         }else{
-            dispatch(toggleDarkTheme())
+            dispatch(updateTheme({theme:"dark",slug:currentUser.slug}))
+            setChecked(true)
         }
-        setChecked(!checked)
     }
     return(
         <PopContent theme={theme}>

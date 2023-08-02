@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getTheme } from "../../redux/selectors"
+import { getCurrentUser, getTheme } from "../../redux/selectors"
 import { OptionItem, PopContent, Title} from "./styles"
 import { MdPowerSettingsNew,MdSettings,MdFace6 } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ const PopoverContent:React.FC = () => {
     const theme = useSelector(getTheme)
     const navigate = useNavigate()
     const auth = new AuthService()
+    const currentUser = useSelector(getCurrentUser)
 
     const onLogOut = async () => {
         try {
@@ -17,12 +18,10 @@ const PopoverContent:React.FC = () => {
         } catch (error:any) {
             console.log(error.data)
         }
-        
-       
     }
 
     const viewProfile = () => {
-        navigate("/yugi.nova")
+        navigate("/" + currentUser.slug)
     }
 
     return(

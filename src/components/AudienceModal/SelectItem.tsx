@@ -15,7 +15,8 @@ interface AudienceType{
     name: string;
     description: string;
     checked: boolean;
-    icon: React.ReactElement
+    icon: React.ReactElement,
+    value:string
 }
 
 interface Props {

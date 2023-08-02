@@ -18,19 +18,34 @@ interface Props {
     title: string;
     items: string[];
     addMore?: boolean;
+    editable?: boolean;
+    profileStatus?: boolean;
+    deletable?: boolean;
+    formRender: FormItemType[]
+}
+
+interface FormItemType {
+    name: string,
+    type: string,
+    title:string,
+    inputType: "text"|"textarea"|"range"|"date";
 }
 
 const IntroduceSection: React.FC<Props> = ({
     title,
     items,
     addMore = true,
+    editable = true,
+    profileStatus = true,
+    deletable = true,
+    formRender
 }) => {
     const theme = useSelector(getTheme);
     const [openForm, setOpenForm] = useState<boolean>(false);
 
     const toggleForm = () => {
         if (openForm) {
-            return <Form openForm={openForm} setOpenForm={setOpenForm} />;
+            return <Form openForm={openForm} setOpenForm={setOpenForm} formRender={formRender}/>;
         }
         return "";
     };
@@ -55,11 +70,18 @@ const IntroduceSection: React.FC<Props> = ({
             {showAddMore()}
 
             {toggleForm()}
-            {
-                items.map(item=>{
-                    return  <ContentItem text={item} setOpenForm={setOpenForm} openForm={openForm} />
-                })
-            }
+            {items.map((item) => {
+                return (
+                    <ContentItem
+                        text={item}
+                        setOpenForm={setOpenForm}
+                        openForm={openForm}
+                        editable={editable}
+                        profileStatus={profileStatus}
+                        deletable={deletable}
+                    />
+                );
+            })}
         </Container>
     );
 };

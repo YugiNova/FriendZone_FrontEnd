@@ -55,6 +55,7 @@ export const InfoWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 `;
 
 export const Name = styled.div`

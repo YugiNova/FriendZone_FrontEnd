@@ -21,18 +21,18 @@ import { useEffect, useState } from "react";
 const ClientLayout: React.FC = () => {
     const theme = useSelector(getTheme);
     const chat = useSelector(getChat);
-    const { profile_id } = useParams();
+    const { slug } = useParams();
     const [sidebar, setSidebar] = useState<boolean>(true);
 
     useEffect(() => {
-        if (profile_id) {
+        if (slug) {
             // console.log(profile_id);
             setSidebar(false)
         }
         else{
             setSidebar(true);
         }
-    }, [profile_id]);
+    }, [slug]);
 
     return (
         <Container theme={theme}>

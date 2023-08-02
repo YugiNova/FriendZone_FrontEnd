@@ -17,6 +17,7 @@
     "@types/styled-components": "^5.1.26",
     "antd": "^5.5.0",
     "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "framer-motion": "^10.12.17",
     "moment": "^2.29.4",
     "react": "^18.2.0",

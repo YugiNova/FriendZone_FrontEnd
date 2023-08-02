@@ -15,7 +15,7 @@ class AuthService {
     private baseUrl: string;
 
     constructor() {
-        this.baseUrl = "http://127.0.0.1:8000/api/auth";
+        this.baseUrl =  process.env.REACT_APP_SERVER_URL_LARAVEL+'/api/auth'
     }
 
     public login = async (email: string, password: string) => {
@@ -39,16 +39,15 @@ class AuthService {
     };
 
     public checkLogin = async () => {
-        let result = {};
         try {
-            result = await axios.get(`${this.baseUrl}/checkLogin`, {
+            let result = await axios.get(`${this.baseUrl}/checkLogin`, {
                 withCredentials: true,
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                 },
             });
-            return result;
+            return result.data;
         } catch (error: any) {
             throw error.response;
         }

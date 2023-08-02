@@ -1,11 +1,17 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import { Container, Content, NavItem, Navbar } from "./styles"
 import { useSelector } from "react-redux"
 import { getTheme } from "../../../redux/selectors"
-
+import {useEffect} from 'react'
 
 const Introduce:React.FC = () => {
     const theme = useSelector(getTheme)
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(()=>{
+        navigate(location.pathname+"/overview")
+    },[])
 
     return(
         <Container theme={theme}>

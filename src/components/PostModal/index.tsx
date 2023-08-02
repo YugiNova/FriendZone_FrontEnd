@@ -1,9 +1,11 @@
+import { useSelector } from "react-redux";
 import Comment from "../Comment";
 import Post from "./Post";
 import { CommentContainer, Container, CustomModal, Media, PostContainer, PostWrapper } from "./styles";
 import { useState } from 'react'
 import ImageGallery from 'react-image-gallery'
 import "react-image-gallery/styles/css/image-gallery.css";
+import { getTheme } from "../../redux/selectors";
 
 interface Props {
     open: boolean;
@@ -11,6 +13,7 @@ interface Props {
 }
 
 const PostModal: React.FC<Props> = ({ open, setOpen }) => {
+    const theme = useSelector(getTheme)
     const onClose = () => {
         setOpen(!open);
     };
@@ -36,6 +39,7 @@ const PostModal: React.FC<Props> = ({ open, setOpen }) => {
             footer={null}
             open={open}
             onCancel={onClose}
+            theme={theme}
         >
             <Container layout={media?"1fr": "0"}>
                 <Media>

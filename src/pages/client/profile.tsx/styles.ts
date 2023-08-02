@@ -28,6 +28,12 @@ export const Cover = styled.div`
     img{
         width: 100%;
     }
+
+    .default{
+        width: 100%;
+        height: 100%;
+        background-color: #bfbfbf;
+    }
 `
 
 export const Wrapper = styled.div`
@@ -63,12 +69,12 @@ export const Name = styled.div`
 
 export const NickName = styled.div`
     font-size: 1.25rem;
-    color: ${props => props.theme.secondaryColor};
+    color: ${props => props.theme.secondaryFont};
 `
 
 export const Count = styled.div`
     font-size: 1rem;
-    color: ${props => props.theme.secondaryColor};
+    color: ${props => props.theme.secondaryFont};
 `
 
 export const RighWrapper = styled.div`
@@ -86,6 +92,7 @@ export const ActionButton = styled.button`
     padding:0.5rem;
     width: 9rem;
     border-radius: 0.5rem;
+    color:white;
     cursor: pointer;
 
     display: flex;

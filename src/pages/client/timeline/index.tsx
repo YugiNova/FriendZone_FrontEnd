@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     About,
     Container,
@@ -11,7 +11,7 @@ import {
     PostWrapper,
     Title,
 } from "./styles";
-import { getTheme } from "../../../redux/selectors";
+import { getProfile, getTheme } from "../../../redux/selectors";
 import CreatePost from "../../../components/CreatePost";
 import Post from "../../../components/Post";
 import { AiFillHome } from "react-icons/ai";
@@ -19,9 +19,11 @@ import { MdSchool } from "react-icons/md";
 import { FaBirthdayCake } from "react-icons/fa";
 import PhotoItem from "../../../components/PhotoItem";
 import { Timeline as EventLine } from "antd";
+import moment from "moment";
 
 const Timeline: React.FC = () => {
     const theme = useSelector(getTheme);
+    const profile = useSelector(getProfile)
 
     return (
         <Container theme={theme}>
@@ -29,10 +31,7 @@ const Timeline: React.FC = () => {
                 <Introduce theme={theme}>
                     <Title theme={theme}>Introduce</Title>
                     <About theme={theme}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Morbi nulla dolor, ornare at commodo non, feugiat non
-                        nisi. Phasellus faucibus mollis pharetra. Proin blandit
-                        ac massa sed rhoncus
+                        {profile.data.profile?.introduce}
                     </About>
                     <InfoItem theme={theme}>
                         <AiFillHome />
@@ -44,7 +43,7 @@ const Timeline: React.FC = () => {
                     </InfoItem>
                     <InfoItem theme={theme}>
                         <FaBirthdayCake />
-                        30/02/1999
+                        {moment(profile.data.profile?.dob).format("DD-MM-YYYY")}
                     </InfoItem>
                 </Introduce>
                 <Photos theme={theme}>

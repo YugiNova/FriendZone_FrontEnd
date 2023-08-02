@@ -1,19 +1,59 @@
-import { useSelector } from "react-redux"
-import { Container} from "./styles"
-import { getTheme } from "../../../../redux/selectors"
-import IntroduceSection from "../../../../components/IntroduceSection"
+import { useSelector } from "react-redux";
+import { Container } from "./styles";
+import { getProfile, getTheme } from "../../../../redux/selectors";
+import IntroduceSection from "../../../../components/IntroduceSection";
 
+const Overview: React.FC = () => {
+    const theme = useSelector(getTheme);
+    const profile = useSelector(getProfile);
 
-const Overview:React.FC = () => {
-    const theme = useSelector(getTheme)
-
-    return(
+    return (
         <Container>
-            <IntroduceSection title="Name" items={["Nguyễn Quốc Thắng"]} addMore={false}/>
-            <IntroduceSection title="Birthday" items={["13/12/1999"]} addMore={false}/>
-            <IntroduceSection title="Gender" items={["Male"]} addMore={false}/>
+            <IntroduceSection
+                title="About"
+                deletable={false}
+                profileStatus={false}
+                items={[profile.data.profile?.introduce || ""]}
+                addMore={false}
+                editable={profile.isOwner}
+                formRender={[
+                    {
+                        name: "introduce",
+                        type: "",
+                        title:"Introduce",
+                        inputType: "textarea"
+                    }
+                ]}
+            />
+            <IntroduceSection
+                title="Birthday"
+                deletable={false}
+                profileStatus={false}
+                items={["13/12/1999"]}
+                addMore={false}
+                editable={profile.isOwner}
+                formRender={[
+                    {
+                        name: "dob",
+                        type: "",
+                        title:"Birthday",
+                        inputType: "date"
+                    }
+                ]}
+            />
+            <IntroduceSection
+                title="Gender"
+                deletable={false}
+                profileStatus={false}
+                items={["Male"]}
+                addMore={false}
+                editable={false}
+                formRender={[
+                    
+                ]}
+            />
         </Container>
-    )
-}
+    );
+};
 
-export default Overview
+export default Overview;

@@ -30,12 +30,14 @@ export const HeaderContainer = styled.div`
 export const LeftSidebarContainer = styled.div<Props>`
     display: ${props => props.show};
     position: absolute;
+    width: 20rem;
     left: 0;
 `
 
 export const RightSidebarConatainer = styled.div<Props>`
     display: ${props => props.show};
     position: absolute;
+    width: 20rem;
     right: 0;
 `
 
