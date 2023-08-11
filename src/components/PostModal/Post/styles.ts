@@ -45,8 +45,10 @@ export const Time = styled.div`
 `;
 
 export const Content = styled(Typography.Paragraph)`
-    text-align: justify;
+    text-align: left;
     margin: 1rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
     color: ${(props) => props.theme.primaryFont};
 `;
 
@@ -88,19 +90,36 @@ export const AcitonWrapper = styled.div`
 `;
 
 export const ActionButton = styled.button<Props>`
-    display: flex;
+      display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 100%;
     padding: 0.5rem 0;
     font-size: 1rem;
-    color: ${(props) => (props.liked ? "#1677ff" : props.theme.secondaryFont)};
+    color: ${(props) => props.theme.secondaryFont};
     border-radius: 0.5rem;
     border: none;
     background: transparent;
     cursor: pointer;
     transition: 0.25s ease;
+    font-weight: bold;
+
+    &.like{
+        color: #1b74e4;
+    }
+
+    &.sad{
+        color: #f1c40f;
+    }
+
+    &.haha{
+        color: #f1c40f;
+    }
+
+    &.angry{
+        color: #e74c3c;
+    }
 
     svg {
         margin-right: 0.25rem;

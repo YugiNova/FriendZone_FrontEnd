@@ -13,9 +13,18 @@ export const Content = styled.div`
     margin: 0.55rem 0;
 `
 
+export const TextWrapper = styled.div`
+
+`
+
 export const Text = styled.div`
     font-size: 1.25rem;
     color: ${props => props.theme.primaryFont};
+
+    &.more-info{
+        font-size: 1rem;
+        color: ${props => props.theme.secondaryFont};
+    }
 `
 
 export const Action = styled.div`

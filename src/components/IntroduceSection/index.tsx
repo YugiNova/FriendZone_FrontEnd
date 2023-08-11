@@ -13,10 +13,11 @@ import React, { useState } from "react";
 import AudienceModal from "../AudienceModal";
 import Form from "./Form";
 import ContentItem from "./ContentItem";
+import { IntroduceItem } from "../../interfaces/ComponentProps";
 
 interface Props {
     title: string;
-    items: string[];
+    items: IntroduceItem[];
     addMore?: boolean;
     editable?: boolean;
     profileStatus?: boolean;
@@ -42,10 +43,11 @@ const IntroduceSection: React.FC<Props> = ({
 }) => {
     const theme = useSelector(getTheme);
     const [openForm, setOpenForm] = useState<boolean>(false);
+    const [content,setContent] = useState<IntroduceItem|undefined>()
 
-    const toggleForm = () => {
+    const toggleForm = (content?:IntroduceItem) => {
         if (openForm) {
-            return <Form openForm={openForm} setOpenForm={setOpenForm} formRender={formRender}/>;
+            return <Form setSelectedContent={setContent} selectedContent={content || undefined} openForm={openForm} setOpenForm={setOpenForm} formRender={formRender}/>;
         }
         return "";
     };
@@ -69,11 +71,12 @@ const IntroduceSection: React.FC<Props> = ({
             <Title theme={theme}>{title}</Title>
             {showAddMore()}
 
-            {toggleForm()}
+            {toggleForm(content)}
             {items.map((item) => {
                 return (
                     <ContentItem
-                        text={item}
+                        content={item}
+                        setContent={setContent}
                         setOpenForm={setOpenForm}
                         openForm={openForm}
                         editable={editable}

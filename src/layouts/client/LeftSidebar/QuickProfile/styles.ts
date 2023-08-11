@@ -37,7 +37,7 @@ export const AvatarWrapper = styled.div`
     align-items: center;
 `;
 
-export const Avatar = styled.img<Props>`
+export const AvatarCustom = styled.img<Props>`
     background-image: url(${props => props.src});
     background-position: center;
     background-repeat: no-repeat;

@@ -37,7 +37,7 @@ const RegisterModal: React.FC<Props> = ({ open, setOpen }) => {
         try {
             const data = await form.validateFields();
             setLoading(true);
-            const newDate = moment(data.dob).format('YYYY-MM-DD')
+            const newDate = moment(data.dob.$d).format('YYYY-MM-DD')
             data.dob = newDate;
             auth.register(data)
                 .then((res) => {

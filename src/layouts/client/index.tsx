@@ -36,7 +36,7 @@ const ClientLayout: React.FC = () => {
 
     return (
         <Container theme={theme}>
-            <AffixCustom offsetTop={0}>
+
                 <HeaderContainer>
                     <Header />
                     <LeftSidebarContainer show={sidebar?"block":"none"}>
@@ -51,7 +51,7 @@ const ClientLayout: React.FC = () => {
                         </ChatWrapper>
                     </RightSidebarConatainer>
                 </HeaderContainer>
-            </AffixCustom>
+       
             <MainContainer>
                 <Outlet />
             </MainContainer>

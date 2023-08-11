@@ -19,6 +19,7 @@ export const LogoContainer = styled.div`
     align-items:center;
     img{
         width: 70%;
+        cursor: pointer;
     }
 `
 

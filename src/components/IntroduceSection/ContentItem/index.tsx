@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     Action,
     ActionButton,
@@ -8,21 +8,28 @@ import {
     DropdownContent,
     DropdownCustom,
     Text,
+    TextWrapper,
 } from "./styles";
 import { getTheme } from "../../../redux/selectors";
 import { useState } from "react";
 import AudienceModal from "../../AudienceModal";
 import {
+    MdGroup,
+    MdLock,
     MdModeEdit,
     MdMoreHoriz,
     MdOutlineDelete,
     MdPublic,
 } from "react-icons/md";
+import { IntroduceItem } from "../../../interfaces/ComponentProps";
+import { AppDispatch } from "../../../redux/store";
+import { deleteByService } from "../../../redux/profileSlice";
 
 interface Props {
     openForm: boolean;
     setOpenForm: (openForm: boolean) => void;
-    text: string;
+    setContent: (contentData: IntroduceItem) => void;
+    content: IntroduceItem;
     editable: boolean;
     profileStatus: boolean;
     deletable: boolean;
@@ -37,44 +44,58 @@ interface Status {
 const ContentItem: React.FC<Props> = ({
     openForm,
     setOpenForm,
-    text,
+    setContent,
+    content,
     editable,
     profileStatus,
     deletable,
 }) => {
     const theme = useSelector(getTheme);
     const [open, setOpen] = useState<boolean>(false);
-    const [status,setStatus] = useState<Status>()
+    const [status, setStatus] = useState<Status>();
+    const dispatch = useDispatch<AppDispatch>()
+
+    const onDelete = () => {
+        console.log({id:content.introduceId,service:content.introduceType})
+        dispatch(deleteByService({id:content.introduceId,service:content.introduceType}))
+    }
 
     return (
         <Content>
-            <Text theme={theme}>{text}</Text>
+            <TextWrapper>
+                <Text theme={theme}>{content.introduceContent}</Text>
+                <Text className="more-info" theme={theme}>
+                    {content.introduceMoreContent}
+                </Text>
+            </TextWrapper>
+
             {editable ? (
                 <Action>
                     {profileStatus ? (
                         <>
-                            <Audience
-                                onClick={() => {
-                                    setOpen(true);
-                                }}
-                                theme={theme}
-                            >
-                                <MdPublic />
+                            <Audience theme={theme}>
+                                {content.introduceStatus == "public" ? (
+                                    <MdPublic />
+                                ) : content.introduceStatus == "friends" ? (
+                                    <MdGroup />
+                                ) : (
+                                    <MdLock />
+                                )}
                             </Audience>
-                            <AudienceModal setStatus={setStatus} open={open} setOpen={setOpen} />
                         </>
                     ) : (
                         ""
                     )}
 
                     <DropdownCustom
-                        trigger={["click"]}
+                        trigger={["hover"]}
                         placement="bottomRight"
                         dropdownRender={() => (
                             <DropdownContent theme={theme}>
                                 <DropdownButton
                                     onClick={() => {
                                         setOpenForm(true);
+                                        setContent(content);
                                     }}
                                     action="Edit"
                                     theme={theme}
@@ -86,6 +107,7 @@ const ContentItem: React.FC<Props> = ({
                                     <DropdownButton
                                         action="Delete"
                                         theme={theme}
+                                        onClick={onDelete}
                                     >
                                         <MdOutlineDelete />
                                         Delete

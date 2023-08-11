@@ -24,7 +24,10 @@ export const AffixCustom = styled(Affix)`
 
 export const HeaderContainer = styled.div`
     /* width: 100vw; */
-    position: relative;
+    position: fixed;
+    top:0;
+    z-index: 100;
+    width: 100%;
 `
 
 export const LeftSidebarContainer = styled.div<Props>`
@@ -45,6 +48,7 @@ export const MainContainer = styled.div`
     /* grid-column: 2/3;
     grid-row: 2/3; */
     width: 100%;
+    margin-top: 4.5rem;
 `
 
 export const Wrapper = styled.div`

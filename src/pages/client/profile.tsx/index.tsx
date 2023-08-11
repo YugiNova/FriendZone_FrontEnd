@@ -19,10 +19,20 @@ import { getCurrentUser, getProfile, getTheme } from "../../../redux/selectors";
 import { AiOutlineUserAdd, AiOutlineEye } from "react-icons/ai";
 import { Outlet, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchProfile, setOwner } from "../../../redux/profileSlice";
+import {
+    fetchProfile,
+    setOwner,
+    updateAvatar,
+    updateCover,
+    updateFriendship,
+} from "../../../redux/profileSlice";
 import { AppDispatch } from "../../../redux/store";
 import avatar_male from "../../../assets/avatar_male.png";
 import avatar_female from "../../../assets/avatar_female.png";
+import default_background from "../../../assets/default_background.jpg";
+import { Upload, UploadProps } from "antd";
+import FriendshipService from "../../../services/friendship.service";
+import { toast } from "react-toastify";
 
 const Profile: React.FC = () => {
     const theme = useSelector(getTheme);
@@ -30,6 +40,31 @@ const Profile: React.FC = () => {
     const { slug } = useParams();
     const profile = useSelector(getProfile);
     const currentUser = useSelector(getCurrentUser);
+    const friendship = new FriendshipService();
+    const friendshipService = new FriendshipService();
+
+    const uploadAvatar: UploadProps = {
+        name: "avatar",
+        showUploadList: false,
+        accept: "",
+        customRequest: async (options) => {
+            dispatch(updateAvatar({ file: options.file, id: currentUser.id }));
+        },
+    };
+
+    const uploadCover: UploadProps = {
+        name: "cover",
+        showUploadList: false,
+        accept: "",
+        customRequest: async (options) => {
+            dispatch(
+                updateCover({
+                    file: options.file,
+                    id: profile.data.profile?.id,
+                })
+            );
+        },
+    };
 
     useEffect(() => {
         if (slug) {
@@ -43,27 +78,22 @@ const Profile: React.FC = () => {
     useEffect(() => {
         if (profile.data.slug == currentUser.slug) {
             dispatch(setOwner(true));
-        }
-    }, [profile.data.slug]);
-
-    const coverImage = (status: string) => {
-        if (status == "loading") {
-            return <div className="default"></div>;
-        } else if (
-            status == "success" &&
-            profile.data.profile?.cover_image_url
-        ) {
-            return (
-                <img src="https://images.unsplash.com/photo-1523867574998-1a336b6ded04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" />
-            );
         } else {
-            return <div className="default"></div>;
+            dispatch(setOwner(false));
+        }
+    }, [profile]);
+
+    const coverImage = (url?: string) => {
+        if (url) {
+            return url;
+        } else {
+            return default_background;
         }
     };
 
-    const getAvatar = (status: string) => {
-        if (status == "loading") {
-            return avatar_male;
+    const getAvatar = (url?: string) => {
+        if (url) {
+            return url;
         } else {
             if (profile.data.profile?.gender == "male") {
                 return avatar_male;
@@ -73,14 +103,128 @@ const Profile: React.FC = () => {
         }
     };
 
+    const sendRequest = async () => {
+        try {
+            if (profile.data.id) {
+                let result = await friendship.sendRequest(profile.data.id);
+                return result;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const sendFriendRequest = () => {
+        if (profile.data.id) {
+            friendshipService
+                .sendRequest(profile.data.id)
+                .then((res) => {
+                    toast.success(res.message);
+                    dispatch(updateFriendship('request'))
+                })
+                .catch((err) => {
+                    toast.error(err.message);
+                });
+        }
+    };
+
+    const acceptFriendRequest = () => {
+        if (profile.data.id) {
+            friendshipService
+                .accceptRequest(profile.data.id)
+                .then((res) => {
+                    toast.success(res.message);
+    
+                    dispatch(updateFriendship('friend'))
+                })
+                .catch((err) => {
+                    toast.error(err.message);
+                });
+        }
+    };
+
+    const removeFriendRequest = () => {
+        if (profile.data.id) {
+            friendshipService
+                .removeRequest(profile.data.id)
+                .then((res) => {
+                    toast.success(res.message);
+                    dispatch(updateFriendship(""))
+                })
+                .catch((err) => {
+                    toast.error(err.message);
+                });
+        }
+    };
+
+    const renderActionButton = (friendship: string | undefined) => {
+        switch (friendship) {
+            case "self":
+                return (
+                    <>
+                        <Upload {...uploadAvatar}>
+                            <ActionButton theme={theme}>
+                                Upload avatar
+                            </ActionButton>
+                        </Upload>
+                        <Upload {...uploadCover}>
+                            <ActionButton theme={theme}>
+                                Change Cover
+                            </ActionButton>
+                        </Upload>
+                    </>
+                );
+            case "request":
+                return (
+                    <ActionButton
+                        onClick={removeFriendRequest}
+                        className="action"
+                        theme={theme}
+                    >
+                        Remove request
+                    </ActionButton>
+                );
+            case "accept":
+                return (
+                    <ActionButton
+                        onClick={acceptFriendRequest}
+                        className="action"
+                        theme={theme}
+                    >
+                        Accept request
+                    </ActionButton>
+                );
+            case "friend":
+                return (
+                    <ActionButton className="action" theme={theme}>
+                        Your friend
+                    </ActionButton>
+                );
+            default:
+                return (
+                    <ActionButton
+                        onClick={sendFriendRequest}
+                        className="action"
+                        theme={theme}
+                    >
+                        Add friend
+                    </ActionButton>
+                );
+        }
+    };
+
     return (
         <Container>
             <Header theme={theme}>
-                <Cover>{coverImage(profile.status)}</Cover>
+                <Cover>
+                    <img
+                        src={coverImage(profile.data.profile?.cover_image_url)}
+                    />
+                </Cover>
                 <Wrapper theme={theme}>
                     <AvatarCustom
                         theme={theme}
-                        src={getAvatar(profile.status)}
+                        src={getAvatar(profile.data.avatar_url)}
                         size={144}
                     />
                     <LeftWrapper theme={theme}>
@@ -106,25 +250,21 @@ const Profile: React.FC = () => {
                     <RighWrapper theme={theme}>
                         {profile.isOwner ? (
                             <>
-                                <ActionButton theme={theme}>
-                                    Change Avatar
-                                </ActionButton>
-                                <ActionButton theme={theme}>
-                                    Change Cover
-                                </ActionButton>
+                                <Upload {...uploadAvatar}>
+                                    <ActionButton theme={theme}>
+                                        Upload avatar
+                                    </ActionButton>
+                                </Upload>
+                                <Upload {...uploadCover}>
+                                    <ActionButton theme={theme}>
+                                        Change Cover
+                                    </ActionButton>
+                                </Upload>
                             </>
                         ) : (
-                            <>
-                                <ActionButton theme={theme}>
-                                    <AiOutlineUserAdd />
-                                    Add friends
-                                </ActionButton>
-                                <ActionButton theme={theme}>
-                                    <AiOutlineEye />
-                                    Follow
-                                </ActionButton>
-                            </>
+                            renderActionButton(profile.friendship)
                         )}
+                     
                     </RighWrapper>
                 </Wrapper>
                 <NavBar theme={theme}>
@@ -134,7 +274,7 @@ const Profile: React.FC = () => {
                     <NavItem theme={theme} to={`/${slug}/introduce`}>
                         Introduce
                     </NavItem>
-                    <NavItem theme={theme} to={"/"}>
+                    {/* <NavItem theme={theme} to={"/"}>
                         Friends
                     </NavItem>
                     <NavItem theme={theme} to={"/"}>
@@ -142,7 +282,7 @@ const Profile: React.FC = () => {
                     </NavItem>
                     <NavItem theme={theme} to={"/"}>
                         Videos
-                    </NavItem>
+                    </NavItem> */}
                 </NavBar>
             </Header>
             <Body>

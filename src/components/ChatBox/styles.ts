@@ -1,4 +1,4 @@
-import { Avatar, Input } from "antd";
+import { Avatar, Form, Input } from "antd";
 import styled from "styled-components";
 
 export const Container = styled.div`

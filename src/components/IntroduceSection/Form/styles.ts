@@ -41,7 +41,7 @@ export const CustomTextArea = styled(TextArea)`
 
 export const CustomRangePicker = styled(DatePicker.RangePicker)`
     background: transparent;
-    width: 50%;
+    width: 50%; 
 
     input {
         color: ${(props) => props.theme.primaryFont} !important;

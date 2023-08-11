@@ -98,3 +98,28 @@ export const RadioButton = styled.div<Props>`
     color: ${props => props.checked?"#2e89ff": props.theme.secondaryFont} ;
 `
 
+export const ButtonWrapper = styled.div`
+    display: flex;
+    flex-direction:row;
+    justify-content: end;
+    align-items:center;
+    margin-top: 1rem;
+`
+
+export const CustomButton = styled.button`
+    border: none;
+    margin-left: 1rem;
+    padding:0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &.cancel{
+
+    }
+
+    &.submit{
+        background: ${props => props.theme.primaryColor};
+        color: white;
+    }
+`

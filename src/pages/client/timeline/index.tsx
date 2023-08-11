@@ -20,10 +20,28 @@ import { FaBirthdayCake } from "react-icons/fa";
 import PhotoItem from "../../../components/PhotoItem";
 import { Timeline as EventLine } from "antd";
 import moment from "moment";
+import {useEffect,useState} from 'react'
+import { PostType } from "../../../interfaces/ComponentProps";
+import PostService from "../../../services/post.service";
 
 const Timeline: React.FC = () => {
     const theme = useSelector(getTheme);
     const profile = useSelector(getProfile)
+    const [posts,setPosts] = useState<PostType[]>([])
+    const [nextPage,setNextPage] = useState<any>()
+    const postService = new PostService()
+
+    useEffect(()=>{
+        if(profile.data){
+            postService.getPostByUserProfile(profile.data.id).then(
+                res=>{
+                    setPosts(res.data.posts)
+                }
+            ).catch(err => {
+                console.log(err)
+            })
+        }
+    },[profile])
 
     return (
         <Container theme={theme}>
@@ -33,7 +51,7 @@ const Timeline: React.FC = () => {
                     <About theme={theme}>
                         {profile.data.profile?.introduce}
                     </About>
-                    <InfoItem theme={theme}>
+                    {/* <InfoItem theme={theme}>
                         <AiFillHome />
                         Ho Chi Minh City
                     </InfoItem>
@@ -44,7 +62,7 @@ const Timeline: React.FC = () => {
                     <InfoItem theme={theme}>
                         <FaBirthdayCake />
                         {moment(profile.data.profile?.dob).format("DD-MM-YYYY")}
-                    </InfoItem>
+                    </InfoItem> */}
                 </Introduce>
                 <Photos theme={theme}>
                     <Title theme={theme}>Photos</Title>
@@ -92,8 +110,18 @@ const Timeline: React.FC = () => {
                 </Event>
             </LeftWrapper>
             <PostWrapper theme={theme}>
-                <CreatePost />
-                <Post />
+                {profile.isOwner?<CreatePost />:<div style={{marginBottom: '-1rem'}}></div>}
+                {
+                   posts ? posts.map(item => {
+                        return <Post post={item}/>
+                    }) : ""
+                }
+                {
+                    nextPage ?
+                    <button onClick={()=>{
+
+                    }}>See more</button>:""
+                }
             </PostWrapper>
         </Container>
     );

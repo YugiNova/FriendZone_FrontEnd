@@ -28,6 +28,7 @@ export const Header = styled.div`
 export const AvatarCustom = styled(Avatar)`
     grid-column: 1/2;
     grid-row: 1/3;
+    cursor: pointer;
 `;
 
 export const Name = styled.div`
@@ -36,6 +37,7 @@ export const Name = styled.div`
     font-size: 1.25rem;
     font-weight: bold;
     color: ${(props) => props.theme.primaryFont};
+    cursor: pointer;
 `;
 
 export const Time = styled.div`
@@ -49,6 +51,8 @@ export const Content = styled(Typography.Paragraph)`
     text-align: justify;
     margin: 1rem 0;
     color: ${(props) => props.theme.primaryFont};
+    font-size: 1rem;
+    line-height: 1.5;
 `;
 
 export const MediaWrapper = styled.div``;
@@ -96,12 +100,29 @@ export const ActionButton = styled.button<Props>`
     width: 100%;
     padding: 0.5rem 0;
     font-size: 1rem;
-    color: ${(props) => (props.liked ? "#1677ff" : props.theme.secondaryFont)};
+    color: ${(props) => props.theme.secondaryFont};
     border-radius: 0.5rem;
     border: none;
     background: transparent;
     cursor: pointer;
     transition: 0.25s ease;
+    font-weight: bold;
+
+    &.like{
+        color: #1b74e4;
+    }
+
+    &.sad{
+        color: #f1c40f;
+    }
+
+    &.haha{
+        color: #f1c40f;
+    }
+
+    &.angry{
+        color: #e74c3c;
+    }
 
     svg {
         margin-right: 0.25rem;

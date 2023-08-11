@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -15,7 +15,7 @@ export const Container = styled.div`
     box-shadow: ${props => props.theme.boxshadow};
 `
 
-export const MenuItem = styled(Link)`
+export const MenuItem = styled(NavLink)`
     text-decoration: none;
     width: 100%;
     font-size: 1rem;
@@ -33,6 +33,10 @@ export const MenuItem = styled(Link)`
     &:hover{
         background: ${props => props.theme.secondaryBackground};
         color: ${props => props.theme.primaryColor};
+    }
+
+    &.active{
+        background: ${props => props.theme.secondaryBackground};
     }
 `
 

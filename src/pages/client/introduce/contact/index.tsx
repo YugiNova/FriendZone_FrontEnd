@@ -1,16 +1,51 @@
 import { useSelector } from "react-redux"
 import IntroduceSection from "../../../../components/IntroduceSection"
 import { getProfile } from "../../../../redux/selectors"
-
+import { useEffect, useState } from "react"
+import { IntroduceItem } from "../../../../interfaces/ComponentProps"
 
 const Contact:React.FC = () => {
     const profile = useSelector(getProfile)
+    const [phone,setPhone] = useState<IntroduceItem[]|any>([])
+    const [email,setEmail] = useState<IntroduceItem[]|any>([])
+    const [website,setWebsite] = useState<IntroduceItem[]|any>([])
+    
+    useEffect(()=>{
+        if(profile.status == "success"){
+            setPhone(convertArray(profile.data.contacts,"phone"))
+            setEmail(convertArray(profile.data.contacts,"email"))
+            setWebsite(convertArray(profile.data.contacts,"website"))
+        }
+        console.log(profile.data.contacts)
+    },[profile])
+
+    const convertArray = (profileData:any[]|undefined,type:string) => {
+        if(profileData && Array.isArray(profileData)){
+            let profileDataArray = profileData.filter(item=>{
+                if(profile.isOwner){
+                    return item.type == type
+                }else{
+                    return item.status == "public" && item.type == type
+                }
+            })
+            
+            let newprofileDataArray = profileDataArray.map(item=>{
+                return {
+                    introduceContent: item.content,
+                    introduceId: item.id,
+                    introduceStatus: item.status,
+                    introduceType: "contact"
+                }
+            })
+            return newprofileDataArray
+        }
+    }
 
     return(
         <div>
             <IntroduceSection
                 title="Phone Number"
-                items={["0902647540"]}
+                items={phone}
                 addMore={profile.isOwner} editable={profile.isOwner}
                 formRender={[
                     {
@@ -29,7 +64,7 @@ const Contact:React.FC = () => {
             />
             <IntroduceSection
                 title="Email"
-                items={["yuginovaniac@gmail.com"]}
+                items={email}
                 addMore={profile.isOwner} editable={profile.isOwner}
                 formRender={[
                     {
@@ -48,7 +83,7 @@ const Contact:React.FC = () => {
             />
             <IntroduceSection
                 title="Website"
-                items={["https://yuginova.github.io/Portfolio/"]}
+                items={website}
                 addMore={profile.isOwner} editable={profile.isOwner}
                 formRender={[
                     {
@@ -60,7 +95,7 @@ const Contact:React.FC = () => {
                     {
                         name: "type",
                         type: "contact",
-                        title:"wensite",
+                        title:"website",
                         inputType: "text"
                     }
                 ]}

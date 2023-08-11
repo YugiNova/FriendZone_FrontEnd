@@ -1,4 +1,5 @@
 import { Select, Input, Avatar, Button } from "antd";
+import ReactImageGallery from "react-image-gallery";
 import styled from "styled-components";
 const { TextArea } = Input;
 const { Option } = Select;
@@ -36,46 +37,29 @@ export const Name = styled.div`
     color: ${(props) => props.theme.primaryFont};
 `;
 
-export const CustomSelect = styled(Select)`
-    grid-column: 2/3;
-    grid-row: 2/3;
-    .ant-select-selector {
-        background: ${(props) => props.theme.secondaryBackground} !important;
-        height: 20px !important;
-        .ant-select-selection-item {
-            font-size: 0.75rem !important;
-            display: flex;
-            align-items: center;
-            font-weight: 700;
-            color: ${(props) => props.theme.secondaryFont} !important;
-        }
-    }
+export const AudienceButton = styled.button`
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    font-size: 0.75rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: ${props => props.theme.secondaryBackground};
+    cursor: pointer;
 
-    svg {
-        font-size: 0.75rem !important;
-        font-weight: 700;
-        color: ${(props) => props.theme.secondaryFont} !important;
+    svg{
+        font-size: 1.25rem;
+        margin-right: 0.5rem;
     }
-
-    /* .ant-select-item-option-content {
-        font-weight: 900;
-    } */
-`;
-
-export const OptionItem = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: start;
-    svg {
-        margin-right: 0.25rem;
-    }
-`;
+`
 
 export const TextAreaCustom = styled(TextArea)`
     margin: 1rem 0;
     background: ${(props) => props.theme.secondaryBackground};
     color: ${(props) => props.theme.primaryFont};
+    font-size: 1rem;
 
     ::placeholder{
         color: ${(props) => props.theme.secondaryFont};
@@ -89,6 +73,45 @@ export const TextAreaCustom = styled(TextArea)`
         background: ${(props) => props.theme.secondaryBackground};
     }
 `;
+
+export const PreviewWrapper = styled.div`
+    width: 100%;
+    margin-bottom: 1rem;
+    position:relative;
+`
+
+export const RemoveImageButton = styled.button`
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    padding: 0.25rem 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    margin: 0.5rem;
+    border:1px solid ${props => props.theme.primaryColor};
+    background: transparent;
+    color: ${props => props.theme.primaryColor};
+    border-radius:1rem;
+    cursor: pointer;
+    transition: 0.25s ease;
+
+    svg{
+        font-size: 1.25rem;
+    }
+
+    &:hover{
+        background-color: ${props => props.theme.primaryColor};
+        color: white;
+    }
+`
+
+export const Preview = styled(ReactImageGallery)`
+    width: 100%;
+`
 
 export const Footer = styled.div`
     width: 100%;
@@ -134,7 +157,7 @@ export const PostButton = styled.button`
     background: ${(props) => props.theme.primaryColor};
     border: 1px solid ${(props) => props.theme.primaryColor};
     padding: 0.5rem;
-    color: ${(props) => props.theme.primaryFont};
+    color:white;
     border-radius: 0.5rem;
     cursor: pointer;
     transition: 0.5s ease;
@@ -142,6 +165,7 @@ export const PostButton = styled.button`
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    font-size: 1rem;
 
     svg{
         margin-right: 0.25rem;

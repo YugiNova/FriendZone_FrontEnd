@@ -3,6 +3,8 @@ import themeSlice from "./themeSlice";
 import chatSlice from "./chatSlice";
 import authSlice from "./authSlice";
 import profileSlice from "./profileSlice";
+import notificationSlice from "./notificationSlice";
+import newsfeedSlice from "./newsfeedSlice";
 
 
 export const store = configureStore({
@@ -10,7 +12,9 @@ export const store = configureStore({
         theme: themeSlice.reducer,
         chat: chatSlice.reducer,
         auth: authSlice.reducer,
-        profile: profileSlice.reducer
+        profile: profileSlice.reducer,
+        notification: notificationSlice.reducer,
+        newsfeed: newsfeedSlice.reducer
     }
 })
 

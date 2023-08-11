@@ -1,5 +1,5 @@
 import { Radio, RadioChangeEvent } from "antd";
-import { Container, Description, IconWrapper, ModalCustom, Name, RadioButton, SelectContainer, Title } from "./styles";
+import { ButtonWrapper, Container, CustomButton, Description, IconWrapper, ModalCustom, Name, RadioButton, SelectContainer, Title } from "./styles";
 import {useState,useEffect} from "react"
 import SelectItem from "./SelectItem";
 import { useSelector } from "react-redux";
@@ -33,18 +33,18 @@ const AudienceModal: React.FC<Props> = ({ open, setOpen, setStatus }) => {
             description: "Only your friends can see",
             icon: <MdGroup/>,
             checked: false,
-            value: "friends"
+            value: "friend"
         },
         {
             name: "Only me",
             description: "Only you can see",
             icon: <MdLock/>,
             checked: false,
-            value: "me"
+            value: "self"
         }
     ])
 
-    useEffect(()=>{
+    const onSelectStatus = () => {
         audience.map(item => {
             if(item.checked == true){
                 setStatus({
@@ -54,7 +54,8 @@ const AudienceModal: React.FC<Props> = ({ open, setOpen, setStatus }) => {
                 })
             }
         })
-    },[audience])
+        setOpen(false)
+    }
 
     return (
         <ModalCustom
@@ -74,6 +75,10 @@ const AudienceModal: React.FC<Props> = ({ open, setOpen, setStatus }) => {
                         ))
                     }
                 </SelectContainer>
+                <ButtonWrapper>
+                    <CustomButton onClick={()=>{setOpen(false)}} theme={theme} className='cancel'>Cancel</CustomButton>
+                    <CustomButton onClick={onSelectStatus} theme={theme} className='submit'>Submit</CustomButton>
+                </ButtonWrapper>
             </Container>
         </ModalCustom>
     );

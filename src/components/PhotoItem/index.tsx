@@ -19,7 +19,7 @@ const PhotoItem:React.FC<Props> = ({src}) => {
             <img src={src}/>
             
             </PhotoButton>
-            <PostModal open={open} setOpen={setOpen}/>
+            {/* <PostModal open={open} setOpen={setOpen}/> */}
         </Container>
     )
 }

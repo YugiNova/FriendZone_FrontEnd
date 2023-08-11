@@ -17,6 +17,10 @@ import {
     toggleDarkTheme,
     toggleLightTheme,
 } from "../../redux/themeSlice";
+import People from "../../pages/client/people";
+import socket from "../../socket";
+import { toast } from "react-toastify";
+import FriendRequest from "../../pages/client/friend_requests";
 
 const ClientRoute = () => {
     const currentUser = useSelector(getCurrentUser);
@@ -28,11 +32,24 @@ const ClientRoute = () => {
         } else if (currentUser.profile?.theme == "dark") {
             dispatch(toggleDarkTheme());
         }
-        
+
         if (currentUser.profile?.color) {
             dispatch(changePrimaryColor(currentUser.profile?.color));
         }
     }, [currentUser.profile?.color, currentUser.profile?.theme]);
+
+    useEffect(() => {
+        if (currentUser.id) {
+            socket.auth = {userId: currentUser.id}
+            socket.connect();
+            socket.emit('identify',currentUser.id)
+        }
+
+        return () => {
+            socket.emit('leave-room',currentUser.id)
+            // socket.disconnect()
+        }
+    }, [currentUser.id]);
 
     return (
         <Routes>
@@ -50,6 +67,8 @@ const ClientRoute = () => {
                     </Route>
                     <Route path="*" element={<Timeline />} />
                 </Route>
+                <Route path="friend-requests" element={<FriendRequest />} />
+                <Route path="people" element={<People />} />
                 <Route path="*" element={<Newfeeds />} />
             </Route>
         </Routes>
